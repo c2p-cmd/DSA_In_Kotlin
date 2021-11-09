@@ -73,3 +73,11 @@ data class Set(
         return storage[i]!!
     }
 }
+
+operator fun Set.plus(otherSet: Set): Set {
+    val newSet = Set(maxOf(this.maxSize, otherSet.maxSize))
+    repeat(this.maxSize) { i ->
+        newSet.add(this[i])
+    }
+    return newSet
+}
