@@ -2,7 +2,7 @@ package linear.stack
 
 import kotlin.collections.ArrayList
 
-data class Queue<T>(
+data class Stack<T>(
     val maxSize: Int = 15
 ) : MyStack<T> {
     private var top = -1
@@ -30,7 +30,7 @@ data class Queue<T>(
     override fun toString(): String =
         buildString {
             this@buildString.append(
-                this@Queue.storage
+                this@Stack.storage
             )
         }
 }
