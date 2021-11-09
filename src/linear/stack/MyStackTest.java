@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class MyStackTest {
     @Test
     void isEmptyTest() {
-        final Queue<Character> s1 = new Queue<>();
+        final Stack<Character> s1 = new Stack<>();
         final boolean res = s1.isEmpty();
         Assertions.assertTrue(res);
         System.out.println("{Expected: " + true + ", Actual: " + res + "}");
@@ -14,7 +14,7 @@ class MyStackTest {
 
     @Test
     void isNotEmptyTest() {
-        final Queue<Character> s1 = new Queue<>();
+        final Stack<Character> s1 = new Stack<>();
         s1.push('$');
         final boolean b = s1.isEmpty();
 
@@ -24,7 +24,7 @@ class MyStackTest {
 
     @Test
     void isFullTest() {
-        Queue<Character> s1 = new Queue<>(1);
+        Stack<Character> s1 = new Stack<>(1);
         s1.push('$');
         final boolean res = s1.isFull();
 
@@ -34,7 +34,7 @@ class MyStackTest {
 
     @Test
     void isNotFullTest() {
-        Queue<Float> s1 = new Queue<>();
+        Stack<Float> s1 = new Stack<>();
         s1.push(3.2f);
         s1.push(2.4f);
         final boolean res = s1.isFull();
@@ -45,7 +45,7 @@ class MyStackTest {
 
     @Test
     void PushTest() {
-        final Queue<Float> f1 = new Queue<>(2);
+        final Stack<Float> f1 = new Stack<>(2);
         final boolean res = f1.push(0.9f);
 
         Assertions.assertTrue(res);
@@ -54,7 +54,7 @@ class MyStackTest {
 
     @Test
     void PopTest() {
-        final Queue<Float> s1 = new Queue<>();
+        final Stack<Float> s1 = new Stack<>();
 
         final float f1 = 1.1f;
         s1.push(0.0f);
@@ -71,7 +71,7 @@ class MyStackTest {
 
     @Test
     void ToStringTest() {
-        final Queue<Integer> s1 = new Queue<>(3);
+        final Stack<Integer> s1 = new Stack<>(3);
         s1.push(2);
         s1.push(4);
         s1.push(6);
@@ -87,7 +87,7 @@ class MyStackTest {
 
     @Test
     void PeekTest() {
-        final Queue<Character> S1 = new Queue<>();
+        final Stack<Character> S1 = new Stack<>();
         for (Character c : "HELLO".toLowerCase().toCharArray()) {
             S1.push(c);
         }
