@@ -1,20 +1,43 @@
 package linear.lists.linked.list;
 
+import kotlin.Pair;
+
 public class LinkedList<T extends Comparable<T>> {
     private Node<T> headPtr;
-    private int nodeCtr;
+    private Integer nodeCtr;
 
+    // default constructor
     public LinkedList() {
         headPtr = null;
         nodeCtr = 0;
     }
 
-    public boolean isEmpty() {
+    // copy constructor
+    public LinkedList(LinkedList<T> otherList) {
+        this.headPtr = otherList.headPtr;
+        this.nodeCtr = otherList.getSize();
+    }
+
+    // checker field
+    public Boolean isEmpty() {
         return this.nodeCtr == 0;
     }
 
-    public int getSize() {
+    // size
+    public Integer getSize() {
         return this.nodeCtr;
+    }
+
+    // check if element is present
+    public boolean contains(T data) {
+        for (Node<T> itr = this.headPtr;
+             itr != null;
+             itr = itr.getNext()
+        ) {
+            if (itr.getData().equals(data))
+                return true;
+        }
+        return false;
     }
 
     public void addDataToTail(T dataValue) {
@@ -47,10 +70,10 @@ public class LinkedList<T extends Comparable<T>> {
             while (tempNode.getNext().getNext() != null) {
                 tempNode = tempNode.getNext();
             }
-            T data = tempNode.getNext().getData();
+            final T data = tempNode.getNext().getData();
 
             // freeing tailPtr
-            tempNode.getNext().setNext(null);
+            tempNode.setNext(null);
 
             this.nodeCtr--;
             return data;
@@ -89,8 +112,9 @@ public class LinkedList<T extends Comparable<T>> {
         this.headPtr = null;
     }
 
-    public boolean insertAt(int n, T dataValue) {
-        if (getSize() == 0 || n > getSize()) return false;
+    public Boolean insertAt(int n, T dataValue) {
+        if (getSize() == 0 || n > getSize())
+            return false;
 
         if (headPtr == null) {
             headPtr = new Node<>(dataValue);
@@ -109,7 +133,7 @@ public class LinkedList<T extends Comparable<T>> {
         return true;
     }
 
-    public void appendList(LinkedList<T> otherList, boolean preserveOther) {
+    public void appendList(LinkedList<T> otherList) {
         if (otherList.headPtr == null) return;
 
         for (Node<T> otherListItr = otherList.headPtr;
@@ -119,9 +143,6 @@ public class LinkedList<T extends Comparable<T>> {
             // adding to current list's tail
             this.addDataToTail(otherListItr.getData());
         }
-
-        if (!preserveOther)
-            otherList.emptyList();
     }
 
     public void transferHeadTo(LinkedList<T> otherList) {
@@ -134,10 +155,6 @@ public class LinkedList<T extends Comparable<T>> {
         Node<T> otherListNext = otherList.headPtr;
         otherList.headPtr = new Node<>(currentHead);
         otherList.headPtr.setNext(otherListNext);
-    }
-
-    public boolean isIdenticalTo(LinkedList<T> otherList) {
-        return this.toString().equals(otherList.toString());
     }
 
     public void reverseList() {
@@ -163,6 +180,46 @@ public class LinkedList<T extends Comparable<T>> {
         resultList.append("null]");
 
         return resultList.toString();
+    }
+
+    public void removeAdjacentDuplicates() {
+        if (headPtr == null || headPtr.getNext() == null)
+            return;
+        Node<T> iterator = this.headPtr;
+        do {
+            if (iterator.getNext().getData().compareTo(iterator.getData()) == 0) {
+                // Skip over the duplicate node. It will be garbage collected
+                // by Java.
+                iterator.setNext(iterator.getNext().getNext());
+            } else
+                iterator = iterator.getNext();
+        } while (iterator.getNext() != null);
+    }
+
+    public static <T extends Comparable<T>> Pair<LinkedList<T>, LinkedList<T>> splitInMid(
+            LinkedList<T> inputList
+    ) {
+        final int endPoint = inputList.getSize();
+        final int midPoint = endPoint/2;
+
+        final LinkedList<T> list1 = new LinkedList<>();
+        final LinkedList<T> list2 = new LinkedList<>();
+
+        for (int i = 1; i < midPoint+1; i++) {
+            list1.addDataToTail(inputList.deleteFromHead());
+        }
+        for (int i = midPoint; i < endPoint; i++) {
+            list2.addDataToTail(inputList.deleteFromHead());
+        }
+
+        return new Pair<>(list1, list2);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LinkedList)
+            return this.toString().equals(obj.toString());
+        return false;
     }
 
     @Override

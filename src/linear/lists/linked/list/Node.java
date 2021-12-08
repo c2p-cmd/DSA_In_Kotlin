@@ -26,6 +26,14 @@ public class Node<T extends Comparable<T>> {
         this.nextPtr = nextNode;
     }
 
+    public boolean equals(Node<T> otherNode) {
+        return (
+                this.getData().equals(otherNode.getData())
+                        &&
+                        this.getNext().equals(otherNode.getNext())
+        );
+    }
+
     @Override
     public String toString() {
         return "Node{" +
