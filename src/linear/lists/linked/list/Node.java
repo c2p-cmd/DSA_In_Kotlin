@@ -30,7 +30,7 @@ public class Node<T extends Comparable<T>> {
         return (
                 this.getData().equals(otherNode.getData())
                         &&
-                        this.getNext().equals(otherNode.getNext())
+                this.getNext().equals(otherNode.getNext())
         );
     }
 

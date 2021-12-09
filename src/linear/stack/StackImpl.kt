@@ -14,12 +14,12 @@ data class Stack<T>(
     override fun isEmpty(): Boolean =
         top == -1
 
-    override fun push(element: T): Boolean {
-        if (isFull) return false
-        storage.add(element)
-        top++
-        return true
-    }
+    override fun push(element: T): Boolean =
+        if (isFull) false else {
+            this.storage.add(element)
+            top++
+            true
+        }
 
     override fun pop(): T =
         this.storage.removeAt(top--)
