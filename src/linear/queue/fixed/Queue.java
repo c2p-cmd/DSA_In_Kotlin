@@ -38,6 +38,10 @@ public class Queue<T> {
         return this.headPtr == ((this.tailPtr+1) % this.elements.length);
     }
 
+    public int getMaxSize() {
+        return this.MAX_SIZE;
+    }
+
     public void enqueue(final T data) throws QueueOverFlowException {
         if (this.isFull()) {
             throw new QueueOverFlowException("Queue is full.");
@@ -84,6 +88,13 @@ public class Queue<T> {
             // program flow comes here and returns false.
             return false;
         }
+    }
+
+    public T peek() throws QueueUnderFlowException {
+        if (isEmpty()) {
+            throw new QueueUnderFlowException("Queue is empty.");
+        }
+        return this.elements[this.headPtr];
     }
 
     // Exceptions for queuing operations.

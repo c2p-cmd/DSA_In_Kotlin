@@ -1,5 +1,7 @@
 package linear.stack.dynamic;
 
+import static linear.stack.dynamic.Stack.*;
+
 public class MinimumStack<T extends Comparable<T>> {
     private final Stack<T> primaryStack;
     private final Stack<T> minimumElementsStack;
@@ -17,7 +19,7 @@ public class MinimumStack<T extends Comparable<T>> {
         return this.primaryStack.isFull();
     }
 
-    public void push(T data) throws StackExceptions.StackOverflowException, StackExceptions.StackUnderflowException {
+    public void push(T data) throws StackOverflowException, StackUnderflowException {
         // pushing onto primary stack first
         this.primaryStack.push(data);
 
@@ -29,30 +31,18 @@ public class MinimumStack<T extends Comparable<T>> {
                     (minimumElementsStack.peek().compareTo(data) > 0) ? data : minimumElementsStack.peek()
             );
         }
-
-            /*
-            // declaring min
-            T min = data;
-
-            if (!this.minimumElementsStack.isEmpty()
-                && min.compareTo(minimumElementsStack.peek()) > 0) {
-                min = this.minimumElementsStack.peek();
-            }
-
-            // pushing the corresponding minimum to minimum stack
-            this.minimumElementsStack.push(min);*/
     }
 
-    public T pop() throws StackExceptions.StackUnderflowException {
+    public T pop() throws StackUnderflowException {
         this.minimumElementsStack.pop();
         return this.primaryStack.pop();
     }
 
-    public T peek() throws StackExceptions.StackUnderflowException {
+    public T peek() throws StackUnderflowException {
         return this.primaryStack.peek();
     }
 
-    public T getMinimumElement() throws StackExceptions.StackUnderflowException {
+    public T getMinimumElement() throws StackUnderflowException {
         return this.minimumElementsStack.peek();
     }
 }
