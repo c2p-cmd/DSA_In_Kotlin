@@ -8,6 +8,8 @@ public class StackProblems {
 
     public static void main(String[] args) {
         problem1();
+        System.out.println();
+        problem2();
     }
 
     static {
@@ -26,6 +28,30 @@ public class StackProblems {
             System.out.println("Does " + expression + " have matching parenthesis?: " +
                     hasMatchingParens(expression)
             );
+        }
+    }
+
+    private static void problem2() {
+        // minimum stack problem
+        final int[] numbers = {2, 4, 10, 1, 11, -2};
+        final MinimumStack<Integer> minStack = new MinimumStack<>();
+
+        try {
+            for (final int n : numbers) {
+                minStack.push(n);
+                System.out.println("Current minimum in stack: " + minStack.getMinimumElement());
+            }
+
+            minStack.pop();
+            System.out.println("Current minimum in stack: " + minStack.getMinimumElement());
+            minStack.pop();
+            System.out.println("Current minimum in stack: " + minStack.getMinimumElement());
+            minStack.pop();
+            System.out.println("Current minimum in stack: " + minStack.getMinimumElement());
+            minStack.pop();
+            System.out.println("Current minimum in stack: " + minStack.getMinimumElement());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
