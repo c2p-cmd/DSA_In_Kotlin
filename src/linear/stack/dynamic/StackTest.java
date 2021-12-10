@@ -2,7 +2,7 @@ package linear.stack.dynamic;
 
 import org.junit.jupiter.api.Test;
 
-import static linear.stack.dynamic.StackExceptions.*;
+import static linear.stack.dynamic.Stack.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StackTest {

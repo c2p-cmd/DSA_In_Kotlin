@@ -1,7 +1,5 @@
 package linear.stack.dynamic;
 
-import static linear.stack.dynamic.StackExceptions.*;
-
 public class Stack<T extends Comparable<T>> {
     private int MAX_SIZE = 50;
     private Element<T> topElement;
@@ -70,5 +68,37 @@ public class Stack<T extends Comparable<T>> {
         builder.append("\n");
 
         return builder.toString();
+    }
+
+    public static class StackOverflowException extends Exception {
+        public StackOverflowException(String message) {
+            super(message);
+        }
+
+        @Override
+        public String getMessage() {
+            return super.getMessage();
+        }
+
+        @Override
+        public void printStackTrace() {
+            super.printStackTrace();
+        }
+    }
+
+    public static class StackUnderflowException extends Exception {
+        public StackUnderflowException(String message) {
+            super(message);
+        }
+
+        @Override
+        public String getMessage() {
+            return super.getMessage();
+        }
+
+        @Override
+        public void printStackTrace() {
+            super.printStackTrace();
+        }
     }
 }
