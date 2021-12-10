@@ -23,6 +23,7 @@ public class QueueTests {
     @Test
     void test2() throws QueueOverFlowException {
         final Queue<Character> q1 = new Queue<>(Character.class);
+
         q1.enqueue(';');
         q1.enqueue('a');
         assertTrue(
@@ -68,5 +69,44 @@ public class QueueTests {
         } catch (QueueUnderFlowException queueUnderFlowException) {
             System.out.println("Error: " + queueUnderFlowException.getMessage());
         }
+    }
+
+    // Queue
+    @Test
+    void test6() throws QueueOverFlowException, QueueUnderFlowException {
+        final char expected = '{';
+        final QueueWithTwoStacks<Character> q1 = new QueueWithTwoStacks<>( 5);
+
+        q1.enqueue('{');
+        q1.enqueue('3');
+        q1.enqueue('4');
+        q1.enqueue('5');
+        q1.enqueue('}');
+
+        final char actual = q1.dequeue();
+
+        System.out.println("Expected: " + expected + ", Actual: " + actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void test7() {
+        assertTrue(
+                new QueueWithTwoStacks<>().isEmpty()
+        );
+    }
+
+    @Test
+    void test8() throws QueueOverFlowException, QueueUnderFlowException {
+        final int expected = 12;
+        final QueueWithTwoStacks<Integer> q1 = new QueueWithTwoStacks<>(3);
+
+        q1.enqueue(12);
+        q1.enqueue(11);
+        q1.enqueue(10);
+        final int actual = q1.dequeue();
+
+        System.out.println("Expected: " + expected + ", Actual: " + actual);
+        assertEquals(expected, actual);
     }
 }
