@@ -82,26 +82,16 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
     public T deleteFromHead() {
-        if (headPtr != null) {
-            T tempData = headPtr.getData();
+        if (this.headPtr != null) {
+            T tempData = this.headPtr.getData();
 
             // freeing old headPtr
-            headPtr = headPtr.getNext();
+            this.headPtr = this.headPtr.getNext();
 
             this.nodeCtr--;
             return tempData;
         }
         return null;
-    }
-
-    public T popHead() {
-        if (headPtr == null)
-            return null;
-        T currentHeadData = this.headPtr.getData();
-
-        headPtr = headPtr.getNext();
-
-        return currentHeadData;
     }
 
     public void emptyList() {
@@ -146,7 +136,7 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
     public void transferHeadTo(LinkedList<T> otherList) {
-        T currentHead = this.popHead();
+        T currentHead = this.deleteFromHead();
         if (otherList.headPtr == null) {
             otherList.addDataToTail(currentHead);
             return;

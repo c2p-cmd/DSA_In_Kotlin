@@ -4,7 +4,7 @@ import kotlin.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class Tests {
+public class ListTests {
     @Test
     void test0() {
         LinkedList<Double> d1 = new LinkedList<>();
@@ -90,7 +90,7 @@ public class Tests {
         d1.addDataToTail(34.1);
         d1.addDataToTail(34.2);
 
-        final double actualHeadData = d1.popHead();
+        final double actualHeadData = d1.deleteFromHead();
         final double expectedData = 34.0;
 
         String expectedS = "[34.1 -> 34.2 -> null]";
@@ -289,6 +289,6 @@ public class Tests {
             list.addDataToTail(c);
         }
 
-        Assertions.assertTrue(list.contains('j'));
+        Assertions.assertFalse(list.contains('j'));
     }
 }
