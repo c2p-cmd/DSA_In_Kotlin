@@ -15,6 +15,11 @@ public class Stack<T extends Comparable<T>> {
         this.MAX_SIZE = maxSize;
     }
 
+    // capacity
+    public int getCapacity() {
+        return this.MAX_SIZE;
+    }
+
     // is stack empty
     public boolean isEmpty() {
         return this.currSize == 0;

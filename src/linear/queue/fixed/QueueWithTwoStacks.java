@@ -18,6 +18,10 @@ public class QueueWithTwoStacks<T extends Comparable<T>> {
         this.reverseStack = new Stack<>(maxSize);
     }
 
+    public int getCapacity() {
+        return this.forwardStack.getCapacity();
+    }
+
     public boolean isEmpty() {
         return this.forwardStack.isEmpty() && this.reverseStack.isEmpty();
     }
