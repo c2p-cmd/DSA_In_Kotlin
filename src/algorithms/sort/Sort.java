@@ -2,7 +2,6 @@ package algorithms.sort;
 
 import java.util.Arrays;
 
-import static algorithms.sort.Swap.swap;
 import static java.lang.Math.min;
 
 public class Sort {
@@ -19,7 +18,7 @@ public class Sort {
             for (int j = i + 1; j < arrayToSort.length; j++) {
                 // swap if ith > jth
                 if (arrayToSort[i] > arrayToSort[j]) {
-                    swap(arrayToSort, i, j);
+                    Swap.swap(arrayToSort, i, j);
                     // System.out.println("-> " + Arrays.toString(arrayToSort));
                 }
             }
@@ -39,7 +38,7 @@ public class Sort {
         for (int i = 0; i < arrayToSort.length; i++) {
             for (int j = 0; j < arrayToSort.length-1; j++) {
                 if (arrayToSort[j] > arrayToSort[j+1]) {
-                    swap(arrayToSort, j, j+1);
+                    Swap.swap(arrayToSort, j, j+1);
                     swapped = true;
                     // System.out.println("-> " + Arrays.toString(arrayToSort));
                 }
@@ -63,7 +62,7 @@ public class Sort {
             // sorting the sub-list
             for (int j = i+1; j > 0; j--) {
                 if (arrayToSort[j-1] > arrayToSort[j]) {
-                    swap(arrayToSort, j-1, j);
+                    Swap.swap(arrayToSort, j-1, j);
                     // System.out.println("-> " + Arrays.toString(arrayToSort));
                 } else {
                     break;
@@ -104,7 +103,7 @@ public class Sort {
                  j -= increment
             ) {
                 if (arrayToSort[j] < arrayToSort[j-increment])
-                    swap(arrayToSort, j, j-increment);
+                    Swap.swap(arrayToSort, j, j-increment);
                 else
                     break; // early break out of the group
             }
@@ -179,5 +178,45 @@ public class Sort {
         }
     }
 
+    public static class QuickSort {
+        /*
+         * Similar to MergeSort this algorithm is a divide and conquer algorithm
+         * Avg. Complexity O(N*logN) Worst: O(N*N)
+         * Isn't adaptive due to Divide & Conquer nature
+         * NOT In-place as,
+         *     it requires additional Space Complexity: avg-O(logN) & worst-O(N)
+         *     from recursive call stack.
+         * NOT a Stable Sort
+         */
+        public static int partition(final int[] arrayToSort, final int lowerBound, final int upperBound) {
+            final int pivot = arrayToSort[upperBound];
+            int lowPtr = (lowerBound-1); // index of smaller element
 
+            for (int highPtr = lowerBound; highPtr<upperBound; highPtr++) {
+                // If current element is smaller than or equal to pivot
+                if (arrayToSort[highPtr] <= pivot) {
+                    lowPtr++;
+                    // swap arrayToSort[lowPtr] and arrayToSort[highPtr]
+                    Swap.swap(arrayToSort, lowPtr, highPtr);
+                }
+            }
+            // swap arrayToSort[lowPtr+1] and arrayToSort[upperBound] (or pivot)
+            Swap.swap(arrayToSort, lowPtr+1, upperBound);
+
+            return lowPtr+1;
+        }
+
+        public static void sortArray(final int[] arrayToSort, final int lowerBound, final int upperBound) {
+            if (lowerBound < upperBound) {
+                /* partitionIndex is partitioning index, arrayToSort[partitionIndex] is
+                 *  now at right place
+                 */
+                int partitionIndex = partition(arrayToSort, lowerBound, upperBound);
+
+                // Recursively sort elements before partitionIndex and after partitionIndex
+                sortArray(arrayToSort, lowerBound, partitionIndex-1);
+                sortArray(arrayToSort, partitionIndex+1, upperBound);
+            }
+        }
+    }
 }

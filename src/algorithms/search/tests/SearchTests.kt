@@ -1,9 +1,11 @@
 package algorithms.search.tests
 
+import algorithms.search.binarySearch
 import algorithms.search.linearSearch
 import algorithms.search.recursiveBinarySearch
 import algorithms.search.sentinelSearch
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -29,7 +31,7 @@ class SearchTests {
         val index = linearSearch(array, elementToFind)
 
         assertTrue {
-            index == null
+            index == -1
         }
         println("$elementToFind is not in ${array.contentToString()}")
     }
@@ -41,35 +43,36 @@ class SearchTests {
         val elementToFind = -4
         val index = sentinelSearch(array, elementToFind)
 
-        assertTrue {
-            index == array.size-1
-        }
+        assertEquals(array.size-1, index)
         println("$elementToFind is at $index in Array: ${array.contentToString()}")
+    }
+
+    @Test
+    fun binarySearchTest() {
+        val index = binarySearch(
+            intArrayOf(9, 18, 32, 45, 66), 66
+        )
+        println("Index: $index")
+        val flag = index != -1
+        assertTrue(flag)
+    }
+
+    @Test
+    fun recursiveBinarySearchTest0() {
+        val index = recursiveBinarySearch(
+            intArrayOf(9, 18, 32, 45, 66), 66, 0, 4
+        )
+        println("Index: $index")
+        val flag = index != -1
+        assertTrue(flag)
     }
 
     @Test
     fun recursiveBinarySearchTest1() {
-        val array = Array(9) { 0.0 }
-        repeat(array.size) { i -> array[i] = i*10.0 }
-
-        val elementToFind = (1..9).random() * 10.0
-        val index = recursiveBinarySearch(array, elementToFind)
-
-        assertFalse {
-            index == null
-        }
-        println("$elementToFind is at $index in Array: ${array.contentToString()}")
-    }
-
-    @Test
-    fun recursiveBinarySearchTest2() {
-        val array = Array(10) { 1 }
-        repeat(array.size) { i -> array[i] = i+1*11 }
-
-        val elementToFind = 20
-        val index = recursiveBinarySearch(array, elementToFind)
-
-        assert(index != null)
-        println("$elementToFind is at $index in Array: ${array.contentToString()}")
+        val array = intArrayOf(12, 14, 27, 58, 99, 123)
+        val key = 120
+        val index = recursiveBinarySearch(array, key, 0, array.size-1)
+        println("Index: $index")
+        assertEquals(index, -1)
     }
 }

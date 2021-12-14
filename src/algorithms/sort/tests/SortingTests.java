@@ -301,4 +301,18 @@ public class SortingTests {
         System.out.println("After: " + Arrays.toString(actual2));
         assertArrayEquals(expected2, actual2);
     }
+
+    @Test
+    void quickSortTest0() {
+        // test0
+        final int[] expected0 = {6, 9, 10, 12, 14, 15};
+        final int[] actual0 = {15, 14, 12, 10, 9, 6};
+
+        System.out.println("Before swap: " + Arrays.toString(actual0));
+
+        QuickSort.sortArray(actual0, 0, actual0.length-1);
+
+        System.out.println("After swap: " + Arrays.toString(actual0));
+        assertArrayEquals(expected0, actual0);
+    }
 }

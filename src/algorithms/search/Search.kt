@@ -1,47 +1,56 @@
 package algorithms.search
 
+fun recursiveBinarySearch(
+    arrayToSearch: IntArray, elementToSearch: Int, low: Int, high: Int
+): Int {
+    return if (low > high)
+        -1
+    else (low + (high-low) / 2).let { mid ->
+        return when {
+            (arrayToSearch[mid] == elementToSearch) ->
+                mid
+            (arrayToSearch[mid] < elementToSearch) ->
+                recursiveBinarySearch(arrayToSearch, elementToSearch, (mid+1), high)
+            else ->
+                recursiveBinarySearch(arrayToSearch, elementToSearch, low, (mid-1))
+        }
+    }
+}
+
+fun binarySearch(
+    arrayToSearch: IntArray, element: Int
+): Int {
+    var low = 0
+    var high = arrayToSearch.size - 1
+    while (low <= high) (low + (high - low) / 2).
+        let { mid ->
+            when {
+                (arrayToSearch[mid] == element) -> return mid
+                (arrayToSearch[mid] < element) -> low = mid + 1
+                else -> high = mid - 1
+            }
+        }
+    return -1
+}
+
 fun <T> linearSearch(
     collection: Array<T>, element: T
-) : Int? {
+) : Int {
     for (i in collection.indices) {
         if (i == element)
             return i
     }
-    return null
-}
-
-fun <T> recursiveBinarySearch(
-    collection: Array<T>,
-    elementToFind: T,
-    low: Int = 0,
-    high: Int = (collection.size-1)
-) : Int? {
-    val mid: Int = low + (high - low) / 2
-
-    val currentElement = collection[mid].toString()
-    val element = elementToFind.toString()
-
-    println("low = $low, high = $high, mid = $mid")
-    if (high >= low) {
-        if (currentElement == elementToFind)
-            return mid
-
-        return if (currentElement > element)
-            recursiveBinarySearch(collection, elementToFind, low, mid-1)
-        else
-            recursiveBinarySearch(collection, elementToFind, mid+1, high)
-    }
-    TODO("Array Out Of Bounds")
+    return -1
 }
 
 fun <T> sentinelSearch(
     collection: Array<T>,
     elementToFind: T
-) : Int? {
+) : Int {
     collection[collection.size - 1] = elementToFind
     for (i in collection.indices) {
         if (collection[i] == elementToFind)
             return i
     }
-    return null
+    return -1
 }
