@@ -82,8 +82,7 @@ public class Sort {
          */
         for (int increment = arrayToSort.length/2;
              increment > 0;
-             increment /= 2
-        ) {
+             increment /= 2) {
             for (int startIndex = 0; startIndex < increment; startIndex++) {
                 InsertionSort(arrayToSort, startIndex, increment);
             }
@@ -96,12 +95,12 @@ public class Sort {
          */
         for (int i = startIndex;
              i < arrayToSort.length;
-             i += increment
-        ) {
+             i += increment) {
+
             for (int j = min(i+increment, arrayToSort.length-1);
                  j - increment >= 0;
-                 j -= increment
-            ) {
+                 j -= increment) {
+
                 if (arrayToSort[j] < arrayToSort[j-increment])
                     Swap.swap(arrayToSort, j, j-increment);
                 else
@@ -156,6 +155,7 @@ public class Sort {
         public static void mergeSortedArraysInto(final int[] arrayToMerge, final int[] firstHalfArray, final int[] secondHalfArray) {
             int mergeArrayItr = 0, firstArrayItr = 0, secondArrayItr = 0;
 
+            // merging the two given lists
             while (firstArrayItr < firstHalfArray.length && secondArrayItr < secondHalfArray.length) {
                 if (firstHalfArray[firstArrayItr] < secondHalfArray[secondArrayItr])
                     arrayToMerge[mergeArrayItr] = firstHalfArray[firstArrayItr++];
@@ -164,6 +164,7 @@ public class Sort {
                 mergeArrayItr++;
             }
 
+            // in case of remaining elements
             if (firstArrayItr < firstHalfArray.length) {
                 while (mergeArrayItr < arrayToMerge.length) {
                     arrayToMerge[mergeArrayItr++] = firstHalfArray[firstArrayItr++];
@@ -184,7 +185,7 @@ public class Sort {
          * Avg. Complexity O(N*logN) Worst: O(N*N)
          * Isn't adaptive due to Divide & Conquer nature
          * NOT In-place as,
-         *     it requires additional Space Complexity: avg-O(logN) & worst-O(N)
+         *     it requires additional Space Complexity: avg-O(logN) & worst-O(N**2)
          *     from recursive call stack.
          * NOT a Stable Sort
          */
