@@ -5,6 +5,7 @@ public interface MyQueue<T> {
     boolean isEmpty();
     boolean isFull();
     boolean enqueue(T element);
+    int getSize();
     T dequeue();
     T peek();
 }

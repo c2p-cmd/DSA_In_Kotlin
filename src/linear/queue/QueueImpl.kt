@@ -3,11 +3,15 @@ package linear.queue
 data class Queue<T>(
     private val maxSize: Int = 10
 ) : MyQueue<T> {
-    private var currentSize = -1
+    var currentSize = -1
+       private set
+
     private val storage = ArrayList<T>(maxSize)
 
+    override fun getSize(): Int = this.currentSize
+
     override fun isEmpty(): Boolean =
-        this.currentSize == -1
+        this.currentSize > 0
 
     override fun isFull(): Boolean =
         this.currentSize == maxSize-1
