@@ -37,6 +37,20 @@ class SearchTests {
     }
 
     @Test
+    fun linearSearchTest3() {
+        val array = Array(6) { 0 }
+        for (i in 10 until 60 step 10) {
+            array[i/10] = i
+        }
+
+        val index = linearSearch(array, 30)
+        assertEquals(
+            array.indexOf(30), index
+        )
+        println("30 is at index: $index in ${array.contentToString()}")
+    }
+
+    @Test
     fun sentinelSearchTest() {
         val range = (9..20)
         val array = Array(5) { range.random() }

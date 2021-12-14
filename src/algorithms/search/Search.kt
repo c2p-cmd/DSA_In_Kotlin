@@ -37,7 +37,7 @@ fun <T> linearSearch(
     collection: Array<T>, element: T
 ) : Int {
     for (i in collection.indices) {
-        if (i == element)
+        if (collection[i] == element)
             return i
     }
     return -1
