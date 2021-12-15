@@ -7,33 +7,39 @@ import java.util.*
 object Traversals {
     // recursive printing
     // left, right, root
-    fun <T> postOrderPrint(treeRoot: TreeNode<T>?) {
-        if (treeRoot == null)
-            return
+    fun <T> getPostOrderOf(
+        treeNode: TreeNode<T>?, builder: StringBuilder = StringBuilder()
+    ): String {
+        if (treeNode == null)
+            return builder.toString()
 
-        postOrderPrint(treeRoot.leftChild)
-        postOrderPrint(treeRoot.rightChild)
-        print("-> ${treeRoot.data} ")
+        getPostOrderOf(treeNode.leftChild, builder)
+        getPostOrderOf(treeNode.rightChild, builder)
+        return builder.append("-> ${treeNode.data} ").toString()
     }
 
     // left, root, right
-    fun <T> inOrderPrint(treeRoot: TreeNode<T>?) {
-        if (treeRoot == null)
-            return
+    fun <T> getInOrderOf(
+        treeNode: TreeNode<T>?, builder: StringBuilder = StringBuilder()
+    ): String {
+        if (treeNode == null)
+            return builder.toString()
 
-        inOrderPrint(treeRoot.leftChild)
-        print("-> ${treeRoot.data} ")
-        inOrderPrint(treeRoot.rightChild)
+        getInOrderOf(treeNode.leftChild, builder)
+        builder.append("-> ${treeNode.data} ")
+        return getInOrderOf(treeNode.rightChild, builder)
     }
 
     // root, left, right
-    fun <T> preOrderPrint(treeNode: TreeNode<T>?) {
+    fun <T> getPreOrderOf(
+        treeNode: TreeNode<T>?, builder: StringBuilder = StringBuilder()
+    ): String {
         if (treeNode == null)
-            return
+            return builder.toString()
 
-        print("-> ${treeNode.data} ")
-        preOrderPrint(treeNode.leftChild)
-        preOrderPrint(treeNode.rightChild)
+        builder.append("-> ${treeNode.data} ")
+        getPreOrderOf(treeNode.leftChild, builder)
+        return getPreOrderOf(treeNode.rightChild, builder)
     }
 
     /*

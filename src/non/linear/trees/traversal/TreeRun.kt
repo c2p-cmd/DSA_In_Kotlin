@@ -1,10 +1,11 @@
 package non.linear.trees.traversal
 
 import non.linear.trees.TreeNode as Node
-import non.linear.trees.traversal.Traversals.postOrderPrint
-import non.linear.trees.traversal.Traversals.inOrderPrint
-import non.linear.trees.traversal.Traversals.preOrderPrint
+
 import non.linear.trees.traversal.Traversals.breadthFirstPrint
+import non.linear.trees.traversal.Traversals.getInOrderOf
+import non.linear.trees.traversal.Traversals.getPostOrderOf
+import non.linear.trees.traversal.Traversals.getPreOrderOf
 
 fun main() {
     // first tree
@@ -18,15 +19,15 @@ fun main() {
 
 fun <T> printAllPossible(treeRoot: Node<T>) {
     println("Recursive(Depth First)\nPreOrder: ")
-    preOrderPrint(treeRoot)
+    getPreOrderOf(treeRoot)
     println()
 
     println("\nInOrder:")
-    inOrderPrint(treeRoot)
+    getInOrderOf(treeRoot)
     println()
 
     println("\nPostOrder:")
-    postOrderPrint(treeRoot)
+    getPostOrderOf(treeRoot)
     println()
 
     println("\nIterative(Breadth First): ")
