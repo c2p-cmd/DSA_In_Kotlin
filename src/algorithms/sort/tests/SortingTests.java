@@ -1,10 +1,12 @@
 package algorithms.sort.tests;
 
+import algorithms.sort.MergeSort;
+import algorithms.sort.QuickSort;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static algorithms.sort.Sort.*;
+import static algorithms.sort.SortKt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SortingTests {
@@ -20,7 +22,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual0));
 
-        SelectionSort(actual0);
+        selectionSort(actual0);
 
         System.out.println("After swap: " + Arrays.toString(actual0));
         assertArrayEquals(expected0, actual0);
@@ -34,7 +36,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual1));
 
-        SelectionSort(actual1);
+        selectionSort(actual1);
 
         System.out.println("After swap: " + Arrays.toString(actual1));
         assertArrayEquals(expected1, actual1);
@@ -48,7 +50,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual2));
 
-        SelectionSort(actual2);
+        selectionSort(actual2);
 
         System.out.println("After swap: " + Arrays.toString(actual2));
         assertArrayEquals(expected2, actual2);
@@ -66,7 +68,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual0));
 
-        BubbleSort(actual0);
+        bubbleSort(actual0);
 
         System.out.println("After swap: " + Arrays.toString(actual0));
         assertArrayEquals(expected0, actual0);
@@ -80,7 +82,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual1));
 
-        BubbleSort(actual1);
+        bubbleSort(actual1);
 
         System.out.println("After swap: " + Arrays.toString(actual1));
         assertArrayEquals(expected1, actual1);
@@ -94,7 +96,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual2));
 
-        BubbleSort(actual2);
+        bubbleSort(actual2);
 
         System.out.println("After swap: " + Arrays.toString(actual2));
         assertArrayEquals(expected2, actual2);
@@ -112,7 +114,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual0));
 
-        InsertionSort(actual0);
+        insertionSort(actual0);
 
         System.out.println("After swap: " + Arrays.toString(actual0));
         assertArrayEquals(expected0, actual0);
@@ -126,7 +128,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual1));
 
-        InsertionSort(actual1);
+        insertionSort(actual1);
 
         System.out.println("After swap: " + Arrays.toString(actual1));
         assertArrayEquals(expected1, actual1);
@@ -140,7 +142,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual2));
 
-        InsertionSort(actual2);
+        insertionSort(actual2);
 
         System.out.println("After swap: " + Arrays.toString(actual2));
         assertArrayEquals(expected2, actual2);
@@ -158,7 +160,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual0));
 
-        ShellSort(actual0);
+        shellSort(actual0);
 
         System.out.println("After swap: " + Arrays.toString(actual0));
         assertArrayEquals(expected0, actual0);
@@ -172,7 +174,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual1));
 
-        ShellSort(actual1);
+        shellSort(actual1);
 
         System.out.println("After swap: " + Arrays.toString(actual1));
         assertArrayEquals(expected1, actual1);
@@ -186,7 +188,7 @@ public class SortingTests {
 
         System.out.println("Before swap: " + Arrays.toString(actual2));
 
-        ShellSort(actual2);
+        shellSort(actual2);
 
         System.out.println("After swap: " + Arrays.toString(actual2));
         assertArrayEquals(expected2, actual2);
