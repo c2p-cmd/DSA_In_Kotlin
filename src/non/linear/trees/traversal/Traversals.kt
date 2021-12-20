@@ -47,7 +47,7 @@ object Traversals {
      *      root
      *  left    right
      */
-    fun <T> breadthFirstPrint(treeRoot: TreeNode<T>) =
+    fun <T> breadthFirstPrint(treeRoot: TreeNode<T>): Unit =
         LinkedList<TreeNode<T>?>().apply { add(treeRoot) }.let { nodeQueue ->
             while (!nodeQueue.isEmpty()) {
                 var nodeCounter = nodeQueue.size

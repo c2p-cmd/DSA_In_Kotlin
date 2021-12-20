@@ -40,4 +40,49 @@ object BinarySearchTree {
         else
             lookUpFrom(headNode.rightChild, dataToSearch)
     }
+
+    // method to swap children
+    @JvmStatic
+    fun <T> swapChildren(treeNode: TreeNode<T>) {
+        val temp = treeNode.leftChild
+        treeNode.leftChild = treeNode.rightChild
+        treeNode.rightChild = temp
+    }
+
+    // mirror the tree (left children are right & vice-versa)
+    @JvmStatic
+    fun <T> mirrorTree(treeRoot: TreeNode<T>?) {
+        if (treeRoot == null) return
+
+        mirrorTree(treeRoot.leftChild)
+        mirrorTree(treeRoot.rightChild)
+
+        // swapping children at current node
+        swapChildren(treeRoot)
+    }
+
+    // Exercise 1:
+    @JvmStatic
+    fun findMinimumValueIn(node: TreeNode<Int>?): Int {
+        if (node == null)
+            return Int.MIN_VALUE
+
+        var treeItr = node
+
+        while (treeItr?.leftChild != null) {
+            treeItr = treeItr.leftChild
+        }
+        return if (treeItr == null) Int.MIN_VALUE else treeItr.data
+    }
+
+    // Exercise 2:
+    @JvmStatic
+    fun findMaxDepthOf(node: TreeNode<Int>?): Int {
+        if ((node == null) || (node.isLeaf)) return 0
+
+        val leftSubTreeDepth = 1 + findMaxDepthOf(node.leftChild)
+        val rightSubTreeDepth = 1 + findMaxDepthOf(node.rightChild)
+
+        return maxOf(leftSubTreeDepth, rightSubTreeDepth)
+    }
 }

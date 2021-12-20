@@ -7,10 +7,25 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 class BinarySearchTreeTest {
-    private val rootNode1 = createTree0()
-    private val rootNode2 = createTree1()
+    private val rootNode1 = TreeNode(2).apply {
+        BinarySearchTree.insertInto(this, TreeNode(1))
+        BinarySearchTree.insertInto(this, TreeNode(3))
+    }
+    private val rootNode2 = TreeNode(8).apply {
+        // left subtree
+        val six = TreeNode(6); val four = TreeNode(4); val seven = TreeNode(7)
+        // right subtree
+        val fourteen = TreeNode(14); val sixteen = TreeNode(16); val eighteen = TreeNode(18)
+
+        listOf(six, four, seven, fourteen, sixteen, eighteen).let { nodeList ->
+            for (node in nodeList) {
+                BinarySearchTree.insertInto(this, node)
+            }
+        }
+    }
 
     @Test
     fun test0() {
@@ -60,23 +75,71 @@ class BinarySearchTreeTest {
         )
     }
 
-    private fun createTree0(): TreeNode<Int> {
-        val rootNode: TreeNode<Int> = TreeNode(2)
-        BinarySearchTree.insertInto(rootNode, TreeNode(1))
-        BinarySearchTree.insertInto(rootNode, TreeNode(3))
-        return rootNode
+    @Test
+    fun test6() {
+        val expected = 1
+        BinarySearchTree.insertInto(rootNode2, TreeNode(1))
+        val actual = BinarySearchTree.findMinimumValueIn(rootNode2)
+
+        println("Tree In-Order: ${Traversals.getInOrderOf(rootNode2)}")
+        assertEquals(expected, actual)
     }
 
-    private fun createTree1(): TreeNode<Int> = TreeNode(8).apply {
-        // left subtree
-        val six = TreeNode(6); val four = TreeNode(4); val seven = TreeNode(7)
-        // right subtree
-        val fourteen = TreeNode(14); val sixteen = TreeNode(16); val eighteen = TreeNode(18)
+    @Test
+    fun test7() {
+        val expected = 1
+        val actual = BinarySearchTree.findMaxDepthOf(rootNode1)
 
-        listOf(six, four, seven, fourteen, sixteen, eighteen).let { nodeList ->
-            for (node in nodeList) {
-                BinarySearchTree.insertInto(this, node)
-            }
+        println("Expected depth: $expected, Actual depth: $actual")
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun test8() {
+        val expected = 3
+        BinarySearchTree.insertInto(rootNode1, TreeNode(11))
+        BinarySearchTree.insertInto(rootNode1, TreeNode(21))
+        val actual = BinarySearchTree.findMaxDepthOf(rootNode1)
+
+        println("Expected depth: $expected, Actual depth: $actual")
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun test9() {
+        val expectedLeftChild = TreeNode('R').data
+        val tempNode = TreeNode('P').apply {
+            this.leftChild = TreeNode('R')
+            this.rightChild = TreeNode('O')
         }
+
+        println("Pre-Order(before swap): ${Traversals.getPreOrderOf(tempNode)}")
+
+        BinarySearchTree.swapChildren(tempNode)
+        val actualLeftChild = tempNode.leftChild.data
+
+        println("Pre-Order(after swap): ${Traversals.getPreOrderOf(tempNode)}")
+
+        println("Expected: $expectedLeftChild, Actual: $actualLeftChild")
+        assertNotEquals(expectedLeftChild, actualLeftChild)
+    }
+
+    @Test
+    fun test10() {
+        val tempRoot = TreeNode('O').apply {
+            this.leftChild = TreeNode('R').apply { this.leftChild = TreeNode('P') }
+            this.rightChild = TreeNode('1').apply { this.leftChild = TreeNode('G'); this.rightChild = TreeNode('3') }
+        }
+
+        val beforeMirror: String = Traversals.getInOrderOf(tempRoot)
+        println("In-Order(before): $beforeMirror")
+
+        BinarySearchTree.mirrorTree(tempRoot)
+
+        val afterMirror: String = Traversals.getInOrderOf(tempRoot)
+        println("In-Order(after): $afterMirror")
+
+        // after mirroring the tree its in-order printing will reverse
+        assertNotEquals(beforeMirror, afterMirror)
     }
 }
