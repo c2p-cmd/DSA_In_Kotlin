@@ -1,5 +1,7 @@
 package non.linear.trees
 
+import java.lang.StringBuilder
+
 object BinarySearchTree {
     /*
      * Complexity for insertion & lookup:
@@ -49,18 +51,6 @@ object BinarySearchTree {
         treeNode.rightChild = temp
     }
 
-    // mirror the tree (left children are right & vice-versa)
-    @JvmStatic
-    fun <T> mirrorTree(treeRoot: TreeNode<T>?) {
-        if (treeRoot == null) return
-
-        mirrorTree(treeRoot.leftChild)
-        mirrorTree(treeRoot.rightChild)
-
-        // swapping children at current node
-        swapChildren(treeRoot)
-    }
-
     // Exercise 1:
     @JvmStatic
     fun findMinimumValueIn(node: TreeNode<Int>?): Int {
@@ -84,5 +74,52 @@ object BinarySearchTree {
         val rightSubTreeDepth = 1 + findMaxDepthOf(node.rightChild)
 
         return maxOf(leftSubTreeDepth, rightSubTreeDepth)
+    }
+
+    // Exercise 3: mirror the tree (left children are right & vice-versa)
+    @JvmStatic
+    fun <T> mirrorTree(treeRoot: TreeNode<T>?) {
+        if (treeRoot == null) return
+
+        mirrorTree(treeRoot.leftChild)
+        mirrorTree(treeRoot.rightChild)
+
+        // swapping children at current node
+        swapChildren(treeRoot)
+    }
+
+    // Exercise 4: count all structurally unique trees
+    @JvmStatic
+    fun countTreesFrom(numNodes: Int): Int { // numNodes number of nodes of a tree
+        if (numNodes <= 1) return 1
+
+        var sumOfTrees = 0
+        for (i in 1..numNodes) {
+            val leftSubTreeCount = countTreesFrom(i-1)
+            val rightSubTreeCount = countTreesFrom(numNodes-i)
+
+            sumOfTrees += (leftSubTreeCount * rightSubTreeCount)
+        }
+
+        return sumOfTrees
+    }
+
+    // Exercise 5: printing nodes from a range
+    @JvmStatic
+    fun printRange(
+        treeRoot: TreeNode<Int>?, range: IntRange, builder: StringBuilder = StringBuilder()
+    ): String {
+        if (treeRoot == null) return "none"
+
+        if (range.first <= treeRoot.data)
+            printRange(treeRoot.leftChild, range, builder)
+
+        if (treeRoot.data in range)
+            builder.append("-> ").append(treeRoot.data.toString()).append(" ")
+
+        if (range.last > treeRoot.data)
+            printRange(treeRoot.rightChild, range, builder)
+
+        return builder.toString()
     }
 }

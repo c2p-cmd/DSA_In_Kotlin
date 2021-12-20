@@ -3,9 +3,10 @@ package non.linear.trees.tests
 import non.linear.trees.BinarySearchTree
 import non.linear.trees.TreeNode
 import non.linear.trees.traversal.Traversals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
@@ -141,5 +142,39 @@ class BinarySearchTreeTest {
 
         // after mirroring the tree its in-order printing will reverse
         assertNotEquals(beforeMirror, afterMirror)
+    }
+
+    @Test
+    fun test11() {
+        val nodes = listOf(1, 2, 3, 4)
+        val expected = listOf(1, 2, 5, 14)
+        val actual = arrayListOf<Int>()
+        for (numNodes in nodes) {
+            actual.add(BinarySearchTree.countTreesFrom(numNodes))
+        }
+        println("Expected: $expected, Actual: $actual")
+        assertArrayEquals(expected.toIntArray(), actual.toIntArray())
+    }
+
+    @Test
+    fun test12() {
+        val range: IntRange = 11..14
+
+        val expected: String = buildString {
+            for (i in range) {
+                append("-> ").append(i).append(" ")
+            }
+        }
+
+        val tree = TreeNode(9).apply {
+            for (i in range) {
+                BinarySearchTree.insertInto(this, TreeNode(i))
+            }
+            BinarySearchTree.insertInto(this, TreeNode(3))
+        }
+        val actual: String = BinarySearchTree.printRange(tree, range)
+
+        println("Expected: $expected, Actual: $actual")
+        assertEquals(expected, actual)
     }
 }
