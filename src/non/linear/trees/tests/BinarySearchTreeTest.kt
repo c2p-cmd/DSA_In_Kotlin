@@ -127,7 +127,7 @@ class BinarySearchTreeTest {
 
     @Test
     fun test10() {
-        val tempRoot = TreeNode('O').apply {
+        val tempRoot: TreeNode<Char> = TreeNode('O').apply {
             this.leftChild = TreeNode('R').apply { this.leftChild = TreeNode('P') }
             this.rightChild = TreeNode('1').apply { this.leftChild = TreeNode('G'); this.rightChild = TreeNode('3') }
         }
@@ -176,5 +176,35 @@ class BinarySearchTreeTest {
 
         println("Expected: $expected, Actual: $actual")
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun test13() {
+        val rootNode = TreeNode(13).apply {
+            leftChild = TreeNode(14)
+            rightChild = TreeNode(2)
+        }
+
+        println(Traversals.getInOrderOf(rootNode))
+
+        assertFalse(BinarySearchTree.isTreeBST(rootNode, Int.MIN_VALUE, Int.MAX_VALUE))
+    }
+
+    @Test
+    fun test14() {
+        val root = TreeNode('T').apply {
+            leftChild = TreeNode('D')
+            rightChild = TreeNode('X')
+
+            leftChild.leftChild = TreeNode('B')
+            leftChild.rightChild = TreeNode('F')
+
+            rightChild.leftChild = TreeNode('V')
+            rightChild.rightChild = TreeNode('Z')
+        }
+
+        println(Traversals.getInOrderOf(root))
+
+        assertTrue(BinarySearchTree.isTreeBST(root, 'A', 'Z'))
     }
 }

@@ -59,7 +59,7 @@ object BinarySearchTree {
 
         var treeItr = node
 
-        while (treeItr?.leftChild != null) {
+        while (treeItr != null && treeItr.leftChild != null) {
             treeItr = treeItr.leftChild
         }
         return if (treeItr == null) Int.MIN_VALUE else treeItr.data
@@ -122,4 +122,21 @@ object BinarySearchTree {
 
         return builder.toString()
     }
+
+    // Exercise 6: checking if tree is BST or not
+    @JvmStatic
+    fun <T : Comparable<T>> isTreeBST(
+        rootNode: TreeNode<T>?, minElement: T, maxElement: T
+    ): Boolean {
+        if (rootNode == null)
+            return true
+
+        // if out of range
+        if (rootNode.data <= minElement || rootNode.data > maxElement)
+            return false
+
+        return isTreeBST(rootNode.leftChild, minElement, rootNode.data)
+                && isTreeBST(rootNode.rightChild, rootNode.data, maxElement)
+    }
+
 }
