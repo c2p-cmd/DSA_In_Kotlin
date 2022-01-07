@@ -1,5 +1,7 @@
 package non.linear.heap
 
+import java.lang.reflect.Array.newInstance
+
 /*
  * Binary Heap Implementation:
  *  We use a binary heap to implement Priority Queue as it makes the right tread-offs between a Balanced BST & an array.
@@ -18,9 +20,8 @@ package non.linear.heap
 
 private const val MAX_SIZE = 40
 abstract class BinaryHeap<T : Comparable<T>> @JvmOverloads constructor(tClass: Class<T>?, size: Int = MAX_SIZE) {
-    private val data: Array<T>
-    var count = 0
-        private set
+    protected val data: Array<T>
+    private var count = 0
 
     val isEmpty: Boolean
         get() =
@@ -28,34 +29,79 @@ abstract class BinaryHeap<T : Comparable<T>> @JvmOverloads constructor(tClass: C
 
     val isFull: Boolean
         get() =
-            count == data.size
+            count >= data.size
+
+    val highestPriorityElement: T
+        get() {
+            if (isEmpty)
+                throw HeapEmptyException()
+
+            return data[0]
+        }
 
     init {
-        data = java.lang.reflect.Array.newInstance(tClass, size) as Array<T>
+        data = newInstance(tClass, size) as Array<T>
     }
 
-    fun getElementAtIndex(index: Int): T = data[index]
+    companion object {
+        fun <T : Comparable<T>> createMinHeap(
+            tClass: Class<T>
+        ): MinHeap<T> = MinHeap(tClass)
 
-    fun getLeftChildIndexOf(index: Int): Int {
+        fun <T : Comparable<T>> createMinHeap(
+            tClass: Class<T>, size: Int
+        ): MinHeap<T> = MinHeap(tClass, size)
+    }
+
+    protected fun getElementAtIndex(index: Int): T = data[index]
+
+    protected fun getLeftChildIndexOf(index: Int): Int {
         val childIndex = (2 * index) + 1
         return if (childIndex >= count) -1 else childIndex
     }
 
-    fun getRightChildIndexOf(index: Int): Int {
+    protected fun getRightChildIndexOf(index: Int): Int {
         val childIndex = 2 * index + 2
 
-        // invalid child
         return if (childIndex >= count) -1 else childIndex
-
-        // valid child
     }
 
-    fun getParentIndexOf(index: Int): Int =
-        if (index > 0 || index > count) -1 else (index - 1) / 2
+    protected fun getParentIndexOf(index: Int): Int =
+        if (index < 0 || index > count) -1 else (index - 1) / 2
 
 
-    fun isLeaf(index: Int): Boolean =
+    protected fun isLeaf(index: Int): Boolean =
         getLeftChildIndexOf(index) == -1 && getRightChildIndexOf(index) == -1
+
+    protected fun getIndexOfSmallerElement(
+        index: Int
+    ): Int =
+        (getLeftChildIndexOf(index) to getRightChildIndexOf(index)).let { (leftChildIndex, rightChildIndex) ->
+            return@let if (
+                getElementAtIndex(leftChildIndex) < getElementAtIndex(rightChildIndex)
+            ) leftChildIndex
+            else rightChildIndex
+        }
+
+    fun insert(value: T) {
+        if (isFull)
+            throw HeapFullException()
+
+        data[count] = value
+        siftUp(count)
+
+        count++
+    }
+
+    fun remove() : T {
+        val result = highestPriorityElement
+
+        data[0] = data[count - 1]
+        count--
+        siftDown(0)
+
+        return result
+    }
 
     protected fun swap(index1: Int, index2: Int) {
         val tempValue = data[index1]

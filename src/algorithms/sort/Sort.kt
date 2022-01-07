@@ -214,3 +214,72 @@ object QuickSort {
         }
     }
 }
+
+// to use for heap sort
+/*
+ * Heap Sort Uses Heap to maintain & sort the array we need to sort
+ * Avg case complexity = O(N * LogN)
+ * as insertion into heap occurs 'N' times as there are N elements
+ * & each insertion is LogN complexity.
+ *
+ * NOT adaptive.
+ * NOT stable algorithm.
+ * IN-place sorting algorithm.
+ */
+class MaxHeap<T : Comparable<T>>(
+    private val data: Array<T>
+) {
+    private fun getLeftChildIndexOf(index: Int, endIndex: Int): Int {
+        val childIndex = (2 * index) + 1
+
+        return if (childIndex > endIndex) -1 else childIndex
+    }
+
+    private fun getRightChildIndexOf(index: Int, endIndex: Int): Int {
+        val childIndex = 2 * index + 2
+
+        return if (childIndex > endIndex) -1 else childIndex
+    }
+
+    private fun getParentIndexOf(index: Int, endIndex: Int): Int =
+        if (index < 0 || index > endIndex) -1 else (index - 1) / 2
+
+    private fun percolateDown(currentIndex: Int, endIndex: Int) { // similar concept to siftDown
+        val leftChildIndex = getLeftChildIndexOf(currentIndex, endIndex)
+        val rightChildIndex = getRightChildIndexOf(currentIndex, endIndex)
+
+        if (leftChildIndex != -1 && data[leftChildIndex] > data[currentIndex]) {
+            swap(leftChildIndex, currentIndex)
+            percolateDown(leftChildIndex, endIndex)
+        }
+        if (rightChildIndex != -1 && data[rightChildIndex] > data[currentIndex]) {
+            swap(rightChildIndex, currentIndex)
+            percolateDown(rightChildIndex, endIndex)
+        }
+    }
+
+    private fun swap(index1: Int, index2: Int) {
+        val temp = data[index1]
+        data[index1] = data[index2]
+        data[index2] = temp
+    }
+
+    private fun heapify(
+        endIndex: Int
+    ): Unit = getParentIndexOf(endIndex, endIndex).let { parentIndex ->
+        for (index in parentIndex downTo 0) {
+            percolateDown(index, endIndex)
+        }
+    }
+
+    fun heapSort() {
+        heapify(data.lastIndex)
+
+        var endIndex = data.lastIndex
+        while (endIndex > 0) {
+            swap(0, endIndex)
+            endIndex--
+            percolateDown(0, endIndex)
+        }
+    }
+}

@@ -1,18 +1,12 @@
 package non.linear.heap
 
 class MinHeap<T : Comparable<T>> : BinaryHeap<T> {
-    constructor(tClass: Class<T>) : super(tClass)
-    constructor(tClass: Class<T>, size: Int) : super(tClass, size)
+    internal constructor(tClass: Class<T>) : super(tClass)
+    internal constructor(tClass: Class<T>, size: Int) : super(tClass, size)
 
-    private fun getIndexOfSmallerElement(index: Int): Int =
-        (getLeftChildIndexOf(index) to getRightChildIndexOf(index)).let { (leftChildIndex, rightChildIndex) ->
-            return@let if (
-                getElementAtIndex(leftChildIndex) < getElementAtIndex(rightChildIndex)
-            ) leftChildIndex
-            else rightChildIndex
-        }
-
-    override fun siftDown(currentIndex: Int) {
+    override fun siftDown(
+        currentIndex: Int
+    ) {
         if (isLeaf(currentIndex))
             return
 
@@ -33,7 +27,9 @@ class MinHeap<T : Comparable<T>> : BinaryHeap<T> {
         }
     }
 
-    override fun siftUp(currentIndex: Int): Unit =
+    override fun siftUp(
+        currentIndex: Int
+    ): Unit =
         getParentIndexOf(currentIndex).let { parentIndex ->
             if (parentIndex != -1 &&
                     getElementAtIndex(currentIndex) < getElementAtIndex(parentIndex)
