@@ -1,6 +1,8 @@
 package non.linear.heap
 
 import java.lang.reflect.Array.newInstance
+import kotlin.reflect.jvm.internal.impl.builtins.StandardNames.FqNames.array
+
 
 /*
  * Binary Heap Implementation:
@@ -21,10 +23,9 @@ import java.lang.reflect.Array.newInstance
 private const val MAX_SIZE = 40
 abstract class BinaryHeap<T : Comparable<T>>
 @JvmOverloads constructor(
-    tClass: Class<T>, size: Int = MAX_SIZE
+    tClass: Class<T>, size: Int = MAX_SIZE,
 ) {
-
-    protected val data: Array<T>
+    protected val data = newInstance(tClass, size) as Array<T>
     var count = 0
         private set
 
@@ -44,19 +45,15 @@ abstract class BinaryHeap<T : Comparable<T>>
             return data[0]
         }
 
-    init {
-        data = newInstance(tClass, size) as Array<T>
-    }
-
     companion object {
         @JvmStatic
         fun <T : Comparable<T>> createMinHeap(
-            tClass: Class<T>
+            tClass: Class<T>,
         ): MinHeap<T> = MinHeap(tClass)
 
         @JvmStatic
         fun <T : Comparable<T>> createMinHeap(
-            tClass: Class<T>, size: Int
+            tClass: Class<T>, size: Int,
         ): MinHeap<T> = MinHeap(tClass, size)
     }
 
@@ -81,7 +78,7 @@ abstract class BinaryHeap<T : Comparable<T>>
         getLeftChildIndexOf(index) == -1 && getRightChildIndexOf(index) == -1
 
     protected fun getIndexOfSmallerElement(
-        index: Int
+        index: Int,
     ): Int =
         (getLeftChildIndexOf(index) to getRightChildIndexOf(index)).let { (leftChildIndex, rightChildIndex) ->
             return@let if (
@@ -105,9 +102,8 @@ abstract class BinaryHeap<T : Comparable<T>>
             insert(element)
     }
 
-    fun remove() : T {
+    fun removeHighestPriorityElement() : T {
         val result = highestPriorityElement
-
         data[0] = data[count - 1]
         count--
         siftDown(0)
