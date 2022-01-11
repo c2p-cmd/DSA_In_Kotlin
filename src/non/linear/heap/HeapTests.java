@@ -1,11 +1,10 @@
 package non.linear.heap;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static algorithms.sort.SortKt.heapSort;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +29,7 @@ public class HeapTests {
         }
 
         final String expectedWord = "word0";
-        final String actualWord = heap.remove();
+        final String actualWord = heap.removeHighestPriorityElement();
 
         System.out.println("Expected Word: " + expectedWord + ", Actual Word: " + actualWord);
         assertEquals(expectedWord, actualWord);
@@ -104,5 +103,31 @@ public class HeapTests {
 
         System.out.println("Expected: " + expected + ", Actual: " + actual);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void test7() {
+        final Integer[] list = {34, 67, 89, 56, 78, 9};
+        final int k = 5;
+        final List<Integer> elements = MinHeap.getLargestKElements(list, k);
+        System.out.println(k + " Largest: " + elements);
+
+        assert elements != null;
+        elements.forEach(Assertions::assertNotNull);
+    }
+
+    @Test
+    void test8() {
+        final Integer[] list = {34, 67, 89, 56, 99};
+        final int k = 4;
+        final List<Integer> elements = MinHeap.getLargestKElements(list, k);
+        System.out.println(k + " Largest: " + elements);
+
+        assert elements != null;
+        elements.forEach(Assertions::assertNotNull);
+    }
+
+    public static Class<Integer> getTheClass() {
+        return Integer.class;
     }
 }

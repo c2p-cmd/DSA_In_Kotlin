@@ -19,10 +19,33 @@ class MinHeap<T : Comparable<T>> : BinaryHeap<T> {
 
             return maxElement
         }
+
+        @JvmStatic
+        fun getLargestKElements(
+            dataStream: Array<Int>, k: Int
+        ): List<Int>? {
+            if (k > dataStream.size)
+                return null
+
+            val minHeap = MinHeap(HeapTests.getTheClass(), k)
+
+            for (number in dataStream) {
+                if (minHeap.isEmpty) {
+                    minHeap.insert(number)
+                } else if (!minHeap.isFull || minHeap.highestPriorityElement < number) {
+                    if (minHeap.isFull) {
+                        minHeap.removeHighestPriorityElement()
+                    }
+                    minHeap.insert(number)
+                }
+            }
+
+            return minHeap.data.toList()
+        }
     }
 
     override fun siftDown(
-        currentIndex: Int
+        currentIndex: Int,
     ) {
         if (isLeaf(currentIndex))
             return
@@ -45,7 +68,7 @@ class MinHeap<T : Comparable<T>> : BinaryHeap<T> {
     }
 
     override fun siftUp(
-        currentIndex: Int
+        currentIndex: Int,
     ): Unit =
         getParentIndexOf(currentIndex).let { parentIndex ->
             if (parentIndex != -1 &&
@@ -59,7 +82,7 @@ class MinHeap<T : Comparable<T>> : BinaryHeap<T> {
 }
 
 class MaxHeap<T : Comparable<T>>(
-    private val data: Array<T>
+    private val data: Array<T>,
 ) {
     private fun getLeftChildIndexOf(index: Int, endIndex: Int): Int {
         val childIndex = (2 * index) + 1
@@ -97,7 +120,7 @@ class MaxHeap<T : Comparable<T>>(
     }
 
     private fun heapify(
-        endIndex: Int
+        endIndex: Int,
     ): Unit = getParentIndexOf(endIndex, endIndex).let { parentIndex ->
         for (index in parentIndex downTo 0) {
             percolateDown(index, endIndex)
