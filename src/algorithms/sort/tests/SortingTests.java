@@ -317,4 +317,28 @@ public class SortingTests {
         System.out.println("After swap: " + Arrays.toString(actual0));
         assertArrayEquals(expected0, actual0);
     }
+
+    @Test
+    void heapSortTest0() {
+        final Integer[] expectedArray = {34, 35, 36, 37, 38};
+        final Integer[] actualArray = {35, 34, 38, 37, 36};
+        System.out.println("Before: " + Arrays.toString(actualArray));
+
+        heapSort(actualArray);
+
+        System.out.println("After: " + Arrays.toString(actualArray));
+        assertArrayEquals(expectedArray, actualArray);
+    }
+
+    @Test
+    void heapSortTest1() {
+        final String[] words = "What does the fox say".split(" ");
+        final String[] expected = "What does fox say the".split(" ");
+        System.out.println("Before: " + Arrays.toString(words));
+
+        heapSort(words);
+
+        System.out.println("After: " + Arrays.toString(words));
+        assertArrayEquals(expected, words);
+    }
 }

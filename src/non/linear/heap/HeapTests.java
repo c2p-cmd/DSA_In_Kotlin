@@ -1,10 +1,13 @@
 package non.linear.heap;
 
-import algorithms.sort.MaxHeap;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
+import static algorithms.sort.SortKt.heapSort;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HeapTests {
@@ -35,7 +38,7 @@ public class HeapTests {
 
     @Test
     void test2() {
-        final BinaryHeap<Character> heap = BinaryHeap.Companion.createMinHeap(Character.class, 2);
+        final MinHeap<Character> heap = BinaryHeap.Companion.createMinHeap(Character.class, 2);
         heap.insert('A');
         heap.insert('a');
 
@@ -52,8 +55,7 @@ public class HeapTests {
         final Integer[] actualArray = {35, 34, 38, 37, 36};
         System.out.println("Before: " + Arrays.toString(actualArray));
 
-        final MaxHeap<Integer> heap = new MaxHeap<>(actualArray);
-        heap.heapSort();
+        heapSort(actualArray);
 
         System.out.println("After: " + Arrays.toString(actualArray));
         assertArrayEquals(expectedArray, actualArray);
@@ -65,9 +67,42 @@ public class HeapTests {
         final String[] expected = "What does fox say the".split(" ");
         System.out.println("Before: " + Arrays.toString(words));
 
-        new MaxHeap<>(words).heapSort();
+        heapSort(words);
 
         System.out.println("After: " + Arrays.toString(words));
         assertArrayEquals(expected, words);
+    }
+
+    @Test
+    void test5() {
+        final String[] words = "What does the fox say".split(" ");
+        final MinHeap<Integer> integerMinHeap = BinaryHeap.createMinHeap(Integer.class);
+        final List<Integer> wordLengths = new ArrayList<>();
+
+        for (String word : words) {
+            wordLengths.add(word.length());
+        }
+
+        integerMinHeap.insertAll(wordLengths);
+
+        final int expected = 4;
+        final int actual = MinHeap.getMaximumElement(integerMinHeap);
+
+        System.out.println("Expected: " + expected + ", Actual: " + actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void test6() {
+        final List<Double> doubleList = Arrays.asList(34.5, 67.7, 89.34, 56.333, 78.12, 9.1);
+        final MinHeap<Double> doubleMinHeap = BinaryHeap.createMinHeap(Double.class, doubleList.size());
+
+        doubleMinHeap.insertAll(doubleList);
+
+        final double expected = Collections.max(doubleList);
+        final double actual = MinHeap.getMaximumElement(doubleMinHeap);
+
+        System.out.println("Expected: " + expected + ", Actual: " + actual);
+        assertEquals(expected, actual);
     }
 }
