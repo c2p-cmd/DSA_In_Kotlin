@@ -1,5 +1,6 @@
 package algorithms.sort
 
+import non.linear.heap.MaxHeap
 import kotlin.math.min
 
 fun selectionSort(arrayToSort: IntArray) {
@@ -123,9 +124,12 @@ object MergeSort {
         val secondHalfArray = IntArray(arrayToSort.size - splitIndex)
 
         splitInto(arrayToSort, firstHalfArray, secondHalfArray)
+
         sortArray(firstHalfArray)
         sortArray(secondHalfArray)
+
         mergeSortedArraysInto(arrayToSort, firstHalfArray, secondHalfArray)
+
         println(" -> " + arrayToSort.contentToString())
     }
 
@@ -226,60 +230,6 @@ object QuickSort {
  * NOT stable algorithm.
  * IN-place sorting algorithm.
  */
-class MaxHeap<T : Comparable<T>>(
-    private val data: Array<T>
-) {
-    private fun getLeftChildIndexOf(index: Int, endIndex: Int): Int {
-        val childIndex = (2 * index) + 1
-
-        return if (childIndex > endIndex) -1 else childIndex
-    }
-
-    private fun getRightChildIndexOf(index: Int, endIndex: Int): Int {
-        val childIndex = 2 * index + 2
-
-        return if (childIndex > endIndex) -1 else childIndex
-    }
-
-    private fun getParentIndexOf(index: Int, endIndex: Int): Int =
-        if (index < 0 || index > endIndex) -1 else (index - 1) / 2
-
-    private fun percolateDown(currentIndex: Int, endIndex: Int) { // similar concept to siftDown
-        val leftChildIndex = getLeftChildIndexOf(currentIndex, endIndex)
-        val rightChildIndex = getRightChildIndexOf(currentIndex, endIndex)
-
-        if (leftChildIndex != -1 && data[leftChildIndex] > data[currentIndex]) {
-            swap(leftChildIndex, currentIndex)
-            percolateDown(leftChildIndex, endIndex)
-        }
-        if (rightChildIndex != -1 && data[rightChildIndex] > data[currentIndex]) {
-            swap(rightChildIndex, currentIndex)
-            percolateDown(rightChildIndex, endIndex)
-        }
-    }
-
-    private fun swap(index1: Int, index2: Int) {
-        val temp = data[index1]
-        data[index1] = data[index2]
-        data[index2] = temp
-    }
-
-    private fun heapify(
-        endIndex: Int
-    ): Unit = getParentIndexOf(endIndex, endIndex).let { parentIndex ->
-        for (index in parentIndex downTo 0) {
-            percolateDown(index, endIndex)
-        }
-    }
-
-    fun heapSort() {
-        heapify(data.lastIndex)
-
-        var endIndex = data.lastIndex
-        while (endIndex > 0) {
-            swap(0, endIndex)
-            endIndex--
-            percolateDown(0, endIndex)
-        }
-    }
-}
+fun <T : Comparable<T>> heapSort(
+    arrayToSort: Array<T>
+): Unit = MaxHeap(arrayToSort).heapSort()

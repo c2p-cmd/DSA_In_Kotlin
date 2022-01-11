@@ -19,9 +19,14 @@ import java.lang.reflect.Array.newInstance
  */
 
 private const val MAX_SIZE = 40
-abstract class BinaryHeap<T : Comparable<T>> @JvmOverloads constructor(tClass: Class<T>?, size: Int = MAX_SIZE) {
+abstract class BinaryHeap<T : Comparable<T>>
+@JvmOverloads constructor(
+    tClass: Class<T>, size: Int = MAX_SIZE
+) {
+
     protected val data: Array<T>
-    private var count = 0
+    var count = 0
+        private set
 
     val isEmpty: Boolean
         get() =
@@ -44,10 +49,12 @@ abstract class BinaryHeap<T : Comparable<T>> @JvmOverloads constructor(tClass: C
     }
 
     companion object {
+        @JvmStatic
         fun <T : Comparable<T>> createMinHeap(
             tClass: Class<T>
         ): MinHeap<T> = MinHeap(tClass)
 
+        @JvmStatic
         fun <T : Comparable<T>> createMinHeap(
             tClass: Class<T>, size: Int
         ): MinHeap<T> = MinHeap(tClass, size)
@@ -91,6 +98,11 @@ abstract class BinaryHeap<T : Comparable<T>> @JvmOverloads constructor(tClass: C
         siftUp(count)
 
         count++
+    }
+
+    fun insertAll(list: List<T>) {
+        for (element in list)
+            insert(element)
     }
 
     fun remove() : T {
