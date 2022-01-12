@@ -1,0 +1,96 @@
+package non.linear.graphs;
+
+import kotlin.Pair;
+
+import java.util.*;
+
+public class AdjacencyListGraph implements Graph {
+    private final GraphType graphType;
+    private final int numVertices;
+
+    private final List<GraphListNode> vertices = new LinkedList<>();
+
+    boolean isInvalidVertex(final int v) {
+        return (v < 0 || v >= numVertices);
+    }
+
+    public AdjacencyListGraph(final int numVertices) {
+        this.numVertices = numVertices;
+        this.graphType = GraphType.DIRECTED;
+
+        for (int i = 0; i < numVertices; i++) {
+            vertices.add(new GraphListNode(i));
+        }
+    }
+
+    public AdjacencyListGraph(final int numVertices, final GraphType graphType) {
+        this.numVertices = numVertices;
+        this.graphType = graphType;
+
+        for (int i = 0; i < numVertices; i++) {
+            vertices.add(new GraphListNode(i));
+        }
+    }
+
+    @Override
+    public boolean isEdgePresent(int v1, int v2) {
+        return vertices.get(v1).getGraphNodes().contains(v2);
+    }
+
+    @Override
+    public void addEdge(int v1, int v2) {
+        if (isInvalidVertex(v1) || isInvalidVertex(v2))
+            throw new IllegalArgumentException("Vertex is invalid");
+
+        if (isEdgePresent(v1, v2))
+            return;
+
+        vertices.get(v1).getGraphNodes().add(v2);
+        if (graphType == GraphType.UNDIRECTED && v1 != v2)
+            vertices.get(v2).getGraphNodes().add(v1);
+    }
+
+    @Override
+    public boolean removeEdge(int v1, int v2) {
+        if (isInvalidVertex(v1) || isInvalidVertex(v2))
+            throw new IllegalArgumentException("Vertex is invalid");
+
+
+        if (isEdgePresent(v1, v2)) {
+            vertices.get(v1).getGraphNodes().remove(v2);
+            return true;
+        } else
+            return false;
+    }
+
+    @Override
+    public Pair<Integer, List<Integer>> getAdjacentVertices(int v) {
+        if (isInvalidVertex(v))
+            throw new IllegalArgumentException("Vertex is invalid");
+
+        var list = vertices.get(v).getGraphNodes();
+
+        Collections.sort(list);
+        return new Pair<>(v, list);
+    }
+
+    @Override
+    public Map<Integer, List<Integer>> getAllVertices() {
+        var map = new HashMap<Integer, List<Integer>>();
+
+        for (int i = 0; i < numVertices; i++) {
+            map.put(i, getAdjacentVertices(i).component2());
+        }
+
+        return map;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder resultString = new StringBuilder();
+
+        vertices.forEach(pair -> resultString.append(pair).append("\n"));
+
+        return resultString.toString();
+    }
+}
