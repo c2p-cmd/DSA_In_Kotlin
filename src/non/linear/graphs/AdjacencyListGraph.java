@@ -33,12 +33,12 @@ public class AdjacencyListGraph implements Graph {
     }
 
     @Override
-    public boolean isEdgePresent(int v1, int v2) {
+    public boolean isEdgePresent(final int v1, final int v2) {
         return vertices.get(v1).getGraphNodes().contains(v2);
     }
 
     @Override
-    public void addEdge(int v1, int v2) {
+    public void addEdge(final int v1, final int v2) {
         if (isInvalidVertex(v1) || isInvalidVertex(v2))
             throw new IllegalArgumentException("Vertex is invalid");
 
@@ -51,10 +51,9 @@ public class AdjacencyListGraph implements Graph {
     }
 
     @Override
-    public boolean removeEdge(int v1, int v2) {
+    public boolean removeEdge(final int v1, final int v2) {
         if (isInvalidVertex(v1) || isInvalidVertex(v2))
             throw new IllegalArgumentException("Vertex is invalid");
-
 
         if (isEdgePresent(v1, v2)) {
             vertices.get(v1).getGraphNodes().remove(v2);
@@ -64,11 +63,11 @@ public class AdjacencyListGraph implements Graph {
     }
 
     @Override
-    public Pair<Integer, List<Integer>> getAdjacentVertices(int v) {
+    public Pair<Integer, List<Integer>> getAdjacentVertices(final int v) {
         if (isInvalidVertex(v))
             throw new IllegalArgumentException("Vertex is invalid");
 
-        var list = vertices.get(v).getGraphNodes();
+        final List<Integer> list = vertices.get(v).getGraphNodes();
 
         Collections.sort(list);
         return new Pair<>(v, list);
@@ -76,7 +75,7 @@ public class AdjacencyListGraph implements Graph {
 
     @Override
     public Map<Integer, List<Integer>> getAllVertices() {
-        var map = new HashMap<Integer, List<Integer>>();
+        final Map<Integer, List<Integer>> map = new HashMap<>();
 
         for (int i = 0; i < numVertices; i++) {
             map.put(i, getAdjacentVertices(i).component2());
