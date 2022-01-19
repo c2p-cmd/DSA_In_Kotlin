@@ -33,6 +33,11 @@ public class AdjacencyListGraph implements Graph {
     }
 
     @Override
+    public int getNumVertices() {
+        return numVertices;
+    }
+
+    @Override
     public boolean isEdgePresent(final int v1, final int v2) {
         return vertices.get(v1).getGraphNodes().contains(v2);
     }

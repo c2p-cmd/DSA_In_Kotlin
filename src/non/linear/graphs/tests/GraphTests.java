@@ -1,14 +1,9 @@
 package non.linear.graphs.tests;
 
-import kotlin.Pair;
-import non.linear.graphs.AdjacencyListGraph;
-import non.linear.graphs.AdjacencyMatrixGraph;
-import non.linear.graphs.AdjacencySetGraph;
-import non.linear.graphs.Graph;
+import non.linear.graphs.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,17 +85,18 @@ public class GraphTests {
     @Test
     void test5() {
         final Graph g1 = new AdjacencyMatrixGraph(6);
-        List<Pair<Integer, List<Integer>>> verticesOfG1 = buildGraph(g1);
+        final Map<Integer, List<Integer>> verticesOfG1 = buildGraph(g1);
 
         final Graph g2 = new AdjacencySetGraph(6);
-        List<Pair<Integer, List<Integer>>> verticesOfG2 = buildGraph(g2);
+        final Map<Integer, List<Integer>> verticesOfG2 = buildGraph(g2);
 
         final Graph g3 = new AdjacencyListGraph(6);
-        List<Pair<Integer, List<Integer>>> verticesOfG3 = buildGraph(g2);
+        final Map<Integer, List<Integer>> verticesOfG3 = buildGraph(g3);
 
         System.out.println("Vertices Of G1:\n" + verticesOfG1);
         System.out.println("\nVertices Of G2:\n" + verticesOfG2);
         System.out.println("\nVertices Of G3:\n" + verticesOfG3);
+
         assertEquals(verticesOfG1, verticesOfG2);
         assertEquals(verticesOfG2, verticesOfG3);
     }
@@ -124,16 +120,49 @@ public class GraphTests {
         assertEquals(graph.getAllVertices(), graph1.getAllVertices());
     }
 
-    private List<Pair<Integer, List<Integer>>> buildGraph(Graph g) {
+    @Test
+    void test7() {
+        // traversal test
+        final Graph graph0 = new AdjacencyMatrixGraph(5, Graph.GraphType.UNDIRECTED);
+        final Graph graph1 = new AdjacencyMatrixGraph(5, Graph.GraphType.DIRECTED);
+
+        graph0.addEdge(0, 0);
+        graph0.addEdge(0, 1);
+        graph0.addEdge(1, 2);
+        graph0.addEdge(2, 3);
+        graph0.addEdge(3, 3);
+        graph0.addEdge(3, 4);
+
+        graph1.addEdge(0, 0);
+        graph1.addEdge(0, 1);
+        graph1.addEdge(1, 2);
+        graph1.addEdge(2, 3);
+        graph1.addEdge(3, 3);
+        graph1.addEdge(3, 4);
+
+        System.out.println("Vertices of Graph0: " + graph0.getAllVertices());
+
+        final String res0 = GraphTraversals.depthFirstTraversal(graph0);
+        System.out.println("\nGraph0:\n" + res0);
+
+        System.out.println("\nVertices of Graph1: " + graph1.getAllVertices());
+
+        final String res1 = GraphTraversals.depthFirstTraversal(graph1);
+        System.out.println("\nGraph1:\n" + res1);
+
+        assertEquals(res0, res1);
+    }
+
+    private Map<Integer, List<Integer>> buildGraph(Graph g) {
         g.addEdge(0, 0);
         g.addEdge(0, 1);
         g.addEdge(1, 2);
         g.addEdge(2, 3);
         g.addEdge(3, 5);
         g.addEdge(5, 4);
-        final List<Pair<Integer, List<Integer>>> verticesOfGraph = new ArrayList<>();
+        final Map<Integer, List<Integer>> verticesOfGraph = new HashMap<>();
         for (int i = 0; i <= 5; i++) {
-            verticesOfGraph.add(g.getAdjacentVertices(i));
+            verticesOfGraph.put(g.getAdjacentVertices(i).getFirst(), g.getAdjacentVertices(i).getSecond());
         }
         return verticesOfGraph;
     }

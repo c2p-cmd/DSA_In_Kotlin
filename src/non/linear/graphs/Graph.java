@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface Graph {
-
     enum GraphType {
         DIRECTED,
         UNDIRECTED
     }
+
+    int getNumVertices();
 
     boolean isEdgePresent(final int v1, final int v2);
 

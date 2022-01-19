@@ -78,4 +78,6 @@ data class AdjacencyMatrixGraph
             append("\n")
         }
     }
+
+    override fun getNumVertices(): Int = numVertices
 }

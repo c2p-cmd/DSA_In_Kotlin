@@ -56,4 +56,6 @@ data class AdjacencySetGraph
             append("$it\n")
         }
     }
+
+    override fun getNumVertices(): Int = numVertices
 }
