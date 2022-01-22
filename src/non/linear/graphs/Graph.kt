@@ -1,7 +1,10 @@
 package non.linear.graphs
 
-import java.util.*
-import kotlin.text.StringBuilder
+import java.util.Queue
+import java.util.ArrayList
+import java.util.HashSet
+import java.util.Collections
+import java.util.LinkedList
 
 data class GraphNode(
     val vertexNumber: Int
@@ -52,4 +55,41 @@ object GraphTraversals {
 
     @JvmStatic
     fun depthFirstTraversal(graph: Graph) = depthFirstTraversalOf(graph, BooleanArray(graph.numVertices), 0)
+
+    @JvmStatic
+    private fun breadthFirstTraversalOf(
+        graph: Graph,
+        visitedVertices: BooleanArray
+    ): String = buildString {
+        val queue: Queue<Int> = LinkedList()
+        queue.add(0)
+
+        while (!queue.isEmpty()) {
+            val vertex = queue.remove()
+
+            if (visitedVertices[vertex])
+                continue
+
+            append("$vertex->")
+            visitedVertices[vertex] = true
+
+            for (v in graph.getAdjacentVertices(vertex).second) {
+                if (!visitedVertices[v])
+                    queue.add(v)
+            }
+        }
+
+        /*try {
+            repeat(graph.numVertices) {
+                breadthFirstTraversalOf(graph, visitedVertices, it)
+            }
+        } catch (_: StackOverflowError) {
+            return@buildString
+        }*/
+
+        append("\n")
+    }
+
+    @JvmStatic
+    fun breadthFirstTraversal(graph: Graph) = breadthFirstTraversalOf(graph, BooleanArray(graph.numVertices))
 }

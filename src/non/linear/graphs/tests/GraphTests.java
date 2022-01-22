@@ -122,7 +122,7 @@ public class GraphTests {
 
     @Test
     void test7() {
-        // traversal test
+        // DFS traversal test
         final Graph graph0 = new AdjacencyMatrixGraph(5, Graph.GraphType.UNDIRECTED);
         final Graph graph1 = new AdjacencyMatrixGraph(5, Graph.GraphType.DIRECTED);
 
@@ -151,6 +151,25 @@ public class GraphTests {
         System.out.println("\nGraph1:\n" + res1);
 
         assertEquals(res0, res1);
+    }
+
+    @Test
+    void test8() {
+        // traversal test
+        final Graph graph0 = new AdjacencySetGraph(5, Graph.GraphType.UNDIRECTED);
+
+        graph0.addEdge(0, 0);
+        graph0.addEdge(0, 1);
+        graph0.addEdge(1, 2);
+        graph0.addEdge(2, 3);
+        graph0.addEdge(3, 3);
+        graph0.addEdge(3, 4);
+
+        System.out.println("Vertices: " + graph0.getAllVertices());
+
+        final String graphString = GraphTraversals.breadthFirstTraversal(graph0);
+
+        assertNotNull(graphString);
     }
 
     private Map<Integer, List<Integer>> buildGraph(Graph g) {

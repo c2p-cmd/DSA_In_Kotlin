@@ -231,5 +231,5 @@ object QuickSort {
  * IN-place sorting algorithm.
  */
 fun <T : Comparable<T>> heapSort(
-    arrayToSort: Array<T>
+    arrayToSort: Array<T>,
 ): Unit = MaxHeap(arrayToSort).heapSort()
