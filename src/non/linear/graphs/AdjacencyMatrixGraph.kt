@@ -1,13 +1,10 @@
 package non.linear.graphs
 
-import java.util.ArrayList
-import java.util.HashMap
-
 // Default = Directed Graph
 data class AdjacencyMatrixGraph
 @JvmOverloads constructor(
-    private val numVertices: Int,
-    private val graphType: Graph.GraphType = Graph.GraphType.DIRECTED
+    override val numVertices: Int,
+    override val graphType: GraphType = GraphType.DIRECTED,
 ) : Graph {
 
     private val validVertexRange = 0 until numVertices
@@ -17,7 +14,7 @@ data class AdjacencyMatrixGraph
         adjacencyMatrix[v1][v2]
 
     override fun addEdge(v1: Int, v2: Int) {
-        assert(
+        require(
             v1 in validVertexRange && v2 in validVertexRange
         ) { "Vertex isn't Valid!" }
 
@@ -25,18 +22,18 @@ data class AdjacencyMatrixGraph
             return
 
         adjacencyMatrix[v1][v2] = true
-        if (graphType == Graph.GraphType.UNDIRECTED)
+        if (graphType == GraphType.UNDIRECTED)
             adjacencyMatrix[v2][v1] = true
     }
 
     override fun removeEdge(v1: Int, v2: Int): Boolean {
-        assert(
+        require(
             v1 in validVertexRange && v2 in validVertexRange
         ) { return false }
 
         return if (isEdgePresent(v1, v2)) {
             adjacencyMatrix[v1][v2] = false
-            if (graphType == Graph.GraphType.UNDIRECTED)
+            if (graphType == GraphType.UNDIRECTED)
                 adjacencyMatrix[v2][v1] = false
             true
         } else {
@@ -46,7 +43,7 @@ data class AdjacencyMatrixGraph
 
     override fun getAdjacentVertices(v: Int): Pair<Int, List<Int>> =
         v to ArrayList<Int>().apply {
-            assert(v in validVertexRange) {
+            require(v in validVertexRange) {
                 "Vertex isn't valid."
             }
 
@@ -59,11 +56,31 @@ data class AdjacencyMatrixGraph
             sort()
         }
 
-    override fun getAllVertices() = HashMap<Int, List<Int>>().apply {
-        repeat(numVertices) {
-            this[it] = getAdjacentVertices(it).second
+    override val allVertices: Map<Int, List<Int>>
+        get() = HashMap<Int, List<Int>>().apply {
+            repeat(numVertices) { vertex ->
+                this.put(getAdjacentVertices(vertex))
+            }
         }
+
+    private fun HashMap<Int, List<Int>>.put(pair: Pair<Int, List<Int>>) {
+        this[pair.first] = pair.second
     }
+
+    override fun getIndegree(v: Int): Int {
+        require(v in validVertexRange) {
+            "Invalid Vertex!"
+        }
+
+        return adjacencyMatrix.count { it[v] }
+    }
+
+    override val indegreesOfAll: MutableMap<Int, Int>
+            get() = mutableMapOf<Int, Int>().apply {
+                repeat(numVertices) { vertex ->
+                    this[vertex] = getIndegree(vertex)
+                }
+            }
 
     override fun toString(): String = buildString {
         append("\n\t")
@@ -78,6 +95,4 @@ data class AdjacencyMatrixGraph
             append("\n")
         }
     }
-
-    override fun getNumVertices(): Int = numVertices
 }

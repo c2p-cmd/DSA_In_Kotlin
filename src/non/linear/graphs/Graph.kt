@@ -6,6 +6,30 @@ import java.util.HashSet
 import java.util.Collections
 import java.util.LinkedList
 
+enum class GraphType {
+    DIRECTED, UNDIRECTED
+}
+
+interface Graph {
+    val numVertices: Int
+
+    val graphType: GraphType
+
+    fun isEdgePresent(v1: Int, v2: Int): Boolean
+
+    fun addEdge(v1: Int, v2: Int)
+
+    fun removeEdge(v1: Int, v2: Int): Boolean
+
+    fun getAdjacentVertices(v: Int): Pair<Int, List<Int>>
+
+    val allVertices: Map<Int, List<Int>>
+
+    fun getIndegree(v: Int): Int
+
+    val indegreesOfAll: Map<Int, Int>
+}
+
 data class GraphNode(
     val vertexNumber: Int
 ) {
