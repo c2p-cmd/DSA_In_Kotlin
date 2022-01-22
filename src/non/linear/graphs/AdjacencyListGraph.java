@@ -1,6 +1,7 @@
 package non.linear.graphs;
 
 import kotlin.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -68,7 +69,7 @@ public class AdjacencyListGraph implements Graph {
     }
 
     @Override
-    public Pair<Integer, List<Integer>> getAdjacentVertices(final int v) {
+    public @NotNull Pair<Integer, List<Integer>> getAdjacentVertices(final int v) {
         if (isInvalidVertex(v))
             throw new IllegalArgumentException("Vertex is invalid");
 
@@ -79,12 +80,34 @@ public class AdjacencyListGraph implements Graph {
     }
 
     @Override
-    public Map<Integer, List<Integer>> getAllVertices() {
+    public @NotNull Map<Integer, List<Integer>> getAllVertices() {
         final Map<Integer, List<Integer>> map = new HashMap<>();
 
         for (int i = 0; i < numVertices; i++) {
             map.put(i, getAdjacentVertices(i).component2());
         }
+
+        return map;
+    }
+
+    @Override
+    public int getIndegree(final int v) {
+        if (isInvalidVertex(v))
+            throw new IllegalArgumentException("Invalid vertex");
+
+        final int[] indegree = new int[1];
+        getAllVertices().forEach((vertex, vertexList) ->
+                indegree[0] += vertexList.contains(v) ? 1 : 0);
+
+        return indegree[0];
+    }
+
+    @Override
+    public @NotNull Map<Integer, Integer> getIndegreesOfAll() {
+        final Map<Integer, Integer> map = new TreeMap<>();
+
+        for (int i = 0; i < numVertices; i++)
+            map.put(i, getIndegree(i));
 
         return map;
     }
@@ -96,5 +119,11 @@ public class AdjacencyListGraph implements Graph {
         vertices.forEach(pair -> resultString.append(pair).append("\n"));
 
         return resultString.toString();
+    }
+
+    @NotNull
+    @Override
+    public GraphType getGraphType() {
+        return graphType;
     }
 }

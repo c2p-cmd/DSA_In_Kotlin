@@ -2,6 +2,11 @@ package algorithms.sort.tests;
 
 import algorithms.sort.MergeSort;
 import algorithms.sort.QuickSort;
+
+import non.linear.graphs.AdjacencyMatrixGraph;
+import non.linear.graphs.AdjacencySetGraph;
+import non.linear.graphs.Graph;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -340,5 +345,31 @@ public class SortingTests {
 
         System.out.println("After: " + Arrays.toString(words));
         assertArrayEquals(expected, words);
+    }
+
+    @Test
+    void topologicalSortTest0() {
+        final Graph graph0 = new AdjacencyMatrixGraph(5);
+
+        graph0.addEdge(0, 1);
+        graph0.addEdge(1, 2);
+        graph0.addEdge(3, 2);
+        graph0.addEdge(2, 4);
+
+        System.out.println("List: " + topologicalSort(graph0));
+    }
+
+    @Test
+    void topologicalSortTest1() {
+        final Graph graph = new AdjacencySetGraph(7);
+
+        graph.addEdge(2, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(3, 5);
+        graph.addEdge(5, 1);
+        graph.addEdge(1, 0);
+
+        System.out.println("Graph vertices: " + graph.getAllVertices());
+        System.out.println("Sort: " + topologicalSort(graph));
     }
 }

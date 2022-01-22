@@ -1,6 +1,10 @@
 package algorithms.sort
 
+import non.linear.graphs.Graph
+import non.linear.graphs.GraphType
 import non.linear.heap.MaxHeap
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.min
 
 fun selectionSort(arrayToSort: IntArray) {
@@ -233,3 +237,36 @@ object QuickSort {
 fun <T : Comparable<T>> heapSort(
     arrayToSort: Array<T>,
 ): Unit = MaxHeap(arrayToSort).heapSort()
+
+fun topologicalSort(graph: Graph): List<Int> =
+    ArrayList<Int>().apply {
+        require(graph.graphType == GraphType.DIRECTED) {
+            "Undirected Graph not supported."
+        }
+
+        val potentialVertices: Queue<Int> = LinkedList()
+        val degreeMap: MutableMap<Int, Int> = graph.indegreesOfAll.onEach { (vertex, vertexDegree) ->
+            if (vertexDegree == 0)
+                potentialVertices.add(vertex)
+        }.toMutableMap()
+
+        while (potentialVertices.isNotEmpty()) {
+            val vertex = potentialVertices.poll()
+            add(vertex)
+
+            for (adjacentVertex in graph.getAdjacentVertices(vertex).second) {
+                val updatedDegree = degreeMap[adjacentVertex]?.minus(1)
+                degreeMap.remove(adjacentVertex)
+                if (updatedDegree != null) {
+                    degreeMap[adjacentVertex] = updatedDegree
+                }
+
+                if (updatedDegree == 0)
+                    potentialVertices.add(adjacentVertex)
+            }
+        }
+
+        require(size == graph.numVertices) {
+            "The graph has a cycle."
+        }
+    }

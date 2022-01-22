@@ -26,7 +26,7 @@ public class GraphTests {
 
     @Test
     void test1() {
-        final Graph g = new AdjacencyMatrixGraph(4, Graph.GraphType.UNDIRECTED);
+        final Graph g = new AdjacencyMatrixGraph(4, GraphType.UNDIRECTED);
 
         g.addEdge(0, 1);
         g.addEdge(0, 2);
@@ -103,8 +103,8 @@ public class GraphTests {
 
     @Test
     void test6() {
-        final Graph graph = new AdjacencyListGraph(3, Graph.GraphType.UNDIRECTED);
-        final Graph graph1 = new AdjacencySetGraph(3, Graph.GraphType.UNDIRECTED);
+        final Graph graph = new AdjacencyListGraph(3, GraphType.UNDIRECTED);
+        final Graph graph1 = new AdjacencySetGraph(3, GraphType.UNDIRECTED);
 
         graph.addEdge(0,1);
         graph.addEdge(0,2);
@@ -123,8 +123,8 @@ public class GraphTests {
     @Test
     void test7() {
         // DFS traversal test
-        final Graph graph0 = new AdjacencyMatrixGraph(5, Graph.GraphType.UNDIRECTED);
-        final Graph graph1 = new AdjacencyMatrixGraph(5, Graph.GraphType.DIRECTED);
+        final Graph graph0 = new AdjacencyMatrixGraph(5, GraphType.UNDIRECTED);
+        final Graph graph1 = new AdjacencyMatrixGraph(5, GraphType.DIRECTED);
 
         graph0.addEdge(0, 0);
         graph0.addEdge(0, 1);
@@ -156,7 +156,7 @@ public class GraphTests {
     @Test
     void test8() {
         // traversal test
-        final Graph graph0 = new AdjacencySetGraph(5, Graph.GraphType.UNDIRECTED);
+        final Graph graph0 = new AdjacencySetGraph(5, GraphType.UNDIRECTED);
 
         graph0.addEdge(0, 0);
         graph0.addEdge(0, 1);
@@ -170,6 +170,50 @@ public class GraphTests {
         final String graphString = GraphTraversals.breadthFirstTraversal(graph0);
 
         assertNotNull(graphString);
+    }
+
+    @Test
+    void test9() {
+        final Graph[] graphs = {
+                new AdjacencySetGraph(3, GraphType.UNDIRECTED),
+                new AdjacencyListGraph(3, GraphType.UNDIRECTED),
+                new AdjacencyMatrixGraph(3, GraphType.UNDIRECTED)
+        };
+        final Map<Integer, Integer[]> graphDegrees = new TreeMap<>();
+
+        int ctr = 0;
+        for (Graph graph : graphs) {
+            System.out.println("Graph-" + (ctr+1));
+            final Integer[] counts = new Integer[graph.getNumVertices()];
+            graph.addEdge(0, 1);
+            graph.addEdge(1, 2);
+
+            for (int i = 0; i < graph.getNumVertices(); i++) {
+                counts[i] = graph.getIndegree(i);
+                System.out.println("degree of vertex " + i + " is " + counts[i]);
+            }
+
+            graphDegrees.put(ctr, counts);
+            ctr++;
+            System.out.println();
+        }
+
+        assertArrayEquals(graphDegrees.get(0), graphDegrees.get(1));
+        assertArrayEquals(graphDegrees.get(1), graphDegrees.get(2));
+    }
+
+    @Test
+    void test10() {
+        final Graph graph0 = new AdjacencyMatrixGraph(5, GraphType.DIRECTED);
+
+        graph0.addEdge(0, 0);
+        graph0.addEdge(0, 1);
+        graph0.addEdge(1, 2);
+        graph0.addEdge(2, 3);
+        graph0.addEdge(3, 3);
+        graph0.addEdge(3, 4);
+
+        System.out.println("List: " + graph0.getAllVertices());
     }
 
     private Map<Integer, List<Integer>> buildGraph(Graph g) {
