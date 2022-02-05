@@ -69,8 +69,8 @@ object GraphTraversals {
 
         visitedVertices[currentVertex] = true
 
-        val adjacentVertices = graph.getAdjacentVertices(currentVertex)
-        for (vertex in adjacentVertices.second) {
+        val adjacentVertices = graph.getAdjacentVertices(currentVertex).second
+        for (vertex in adjacentVertices) {
             depthFirstTraversalOf(graph, visitedVertices, vertex, resultString)
         }
 
