@@ -30,6 +30,30 @@ interface Graph {
     val indegreesOfAll: Map<Int, Int>
 }
 
+abstract class WeightedGraph
+    @JvmOverloads
+    constructor(
+        override val numVertices: Int,
+        override val graphType: GraphType = GraphType.DIRECTED
+    ) : Graph {
+
+    abstract override fun isEdgePresent(v1: Int, v2: Int): Boolean
+
+    abstract fun addEdge(v1: Int, v2: Int, weight: Double)
+
+    abstract fun getEdgeWeight(v1: Int, v2: Int): Double
+
+    abstract override fun removeEdge(v1: Int, v2: Int): Boolean
+
+    abstract override fun getAdjacentVertices(v: Int): Pair<Int, List<Int>>
+
+    abstract override val allVertices: Map<Int, List<Int>>
+
+    abstract override fun getIndegree(v: Int): Int
+
+    abstract override val indegreesOfAll: Map<Int, Int>
+}
+
 data class GraphNode(
     val vertexNumber: Int
 ) {

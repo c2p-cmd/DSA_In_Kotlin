@@ -1,11 +1,11 @@
 package algorithms.shortest.path
 
 import non.linear.graphs.Graph
-import java.util.*
+import java.util.Queue
+import java.util.LinkedList
+import java.util.Stack
 
-private fun UnweightedGraph.DistanceInfo.isNotValidDistance() = this.distance == -1
-
-object UnweightedGraph {
+object UnweightedGraphCompanion {
     data class DistanceInfo(var distance: Int = -1, var lastVertex: Int = -1)
 
     private fun buildDistanceTable(graph: Graph, source: Int): Map<Int, DistanceInfo> =
@@ -25,9 +25,10 @@ object UnweightedGraph {
                 val currentVertex = queue.poll()
 
                 for (vertexNeighbour in graph.getAdjacentVertices(currentVertex).second) {
-                    distanceTable[vertexNeighbour]?.
-                    takeIf(DistanceInfo::isNotValidDistance)?.
-                    let { distInfo ->
+                    distanceTable[vertexNeighbour]?.let { distInfo ->
+                        if (distInfo.distance != -1) {
+                            return@let
+                        }
                         distInfo.distance = 1 + distanceTable[currentVertex]!!.distance
                         distInfo.lastVertex = currentVertex
 
@@ -54,7 +55,7 @@ object UnweightedGraph {
             stack.push(previousVertex)
             previousVertex = distanceTable[previousVertex]!!.lastVertex
         }
-        println("DistanceTable = $distanceTable")
+
         return if (previousVertex == -1) {
             "There is no path from vertex: $source to $destination"
         } else buildString {

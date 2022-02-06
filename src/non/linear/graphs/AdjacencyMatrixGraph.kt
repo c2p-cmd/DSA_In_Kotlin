@@ -54,7 +54,7 @@ data class AdjacencyMatrixGraph
 
             // always return vertices in ascending order
             sort()
-        }
+        }.toList()
 
     override val allVertices: Map<Int, List<Int>>
         get() = HashMap<Int, List<Int>>().apply {
@@ -63,9 +63,8 @@ data class AdjacencyMatrixGraph
             }
         }
 
-    private fun HashMap<Int, List<Int>>.put(pair: Pair<Int, List<Int>>) {
-        this[pair.first] = pair.second
-    }
+    private fun HashMap<Int, List<Int>>.put(pair: Pair<Int, List<Int>>) =
+        put(pair.first, pair.second)
 
     override fun getIndegree(v: Int): Int {
         require(v in validVertexRange) {
@@ -75,12 +74,12 @@ data class AdjacencyMatrixGraph
         return adjacencyMatrix.count { it[v] }
     }
 
-    override val indegreesOfAll: MutableMap<Int, Int>
+    override val indegreesOfAll: Map<Int, Int>
             get() = mutableMapOf<Int, Int>().apply {
                 repeat(numVertices) { vertex ->
                     this[vertex] = getIndegree(vertex)
                 }
-            }
+            }.toMap()
 
     override fun toString(): String = buildString {
         append("\n\t")
