@@ -1,6 +1,6 @@
 package algorithms.shortest.path.tests;
 
-import algorithms.shortest.path.UnweightedGraphKt;
+import algorithms.shortest.path.UnweightedGraph;
 import non.linear.graphs.AdjacencyMatrixGraph;
 import non.linear.graphs.AdjacencySetGraph;
 import non.linear.graphs.Graph;
@@ -35,7 +35,7 @@ public class ShortestPathTest {
         // E to D
         graph.addEdge(Vertex6.E.get(), Vertex6.D.get());
 
-        final String path = UnweightedGraphKt.shortestPath(graph, Vertex6.A.get(), Vertex6.D.get());
+        final String path = UnweightedGraph.shortestPath(graph, Vertex6.A.get(), Vertex6.D.get());
         System.out.println("Graph:\n" + graph + path);
         assertFalse(path.contains(notExpected));
     }
@@ -48,7 +48,7 @@ public class ShortestPathTest {
         graph.addEdge(0, 1);
         graph.addEdge(2, 3);
 
-        final String path = UnweightedGraphKt.shortestPath(graph, Vertex6.A.get(), Vertex6.D.get());
+        final String path = UnweightedGraph.shortestPath(graph, Vertex6.A.get(), Vertex6.D.get());
         System.out.println("Graph:\n" + graph + path);
         assertTrue(path.contains(expected));
     }
@@ -72,7 +72,7 @@ public class ShortestPathTest {
         // E to D
         graph.addEdge(Vertex6.E.get(), Vertex6.D.get());
 
-        final String path = UnweightedGraphKt.shortestPath(graph, Vertex6.A.get(), Vertex6.D.get());
+        final String path = UnweightedGraph.shortestPath(graph, Vertex6.A.get(), Vertex6.D.get());
         System.out.println("Graph:\n" + graph + path);
         assertFalse(path.contains(notExpected));
     }
