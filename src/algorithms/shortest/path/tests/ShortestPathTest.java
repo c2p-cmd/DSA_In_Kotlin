@@ -1,5 +1,6 @@
 package algorithms.shortest.path.tests;
 
+import algorithms.shortest.path.NegativeWeightedGraphCompanion;
 import algorithms.shortest.path.UnweightedGraphCompanion;
 import algorithms.shortest.path.WeightedGraphCompanion;
 import non.linear.graphs.*;
@@ -69,5 +70,44 @@ public class ShortestPathTest {
         final String path = WeightedGraphCompanion.shortestPath(graph, 0, 4);
         System.out.println("Graph:\n" + graph + path);
         assertFalse(path.contains(notExpected));
+    }
+
+    @Test
+    void test3() {
+        final WeightedGraph graph = new WeightedAdjacencyMatrixGraph(5);
+
+        graph.addEdge(0, 1, 2);
+        graph.addEdge(0, 2, 1);
+
+        graph.addEdge(1, 3, 3);
+        graph.addEdge(1, 4, -2);
+
+        graph.addEdge(2, 1, -5);
+        graph.addEdge(2, 4, 2);
+
+        graph.addEdge(4, 3, 1);
+
+        final String path = NegativeWeightedGraphCompanion.shortestPath(graph, 0, 3);
+        System.out.println("Graph:\n" + graph + path);
+        assertTrue(path.contains("DONE"));
+    }
+
+    @Test
+    void test4() {
+        final WeightedGraph graph = new WeightedAdjacencyMatrixGraph(4);
+
+        graph.addEdge(0, 1, 3);
+        graph.addEdge(0, 2, 2);
+
+        graph.addEdge(1, 2, -4);
+        graph.addEdge(2, 0, -5);
+
+        try {
+            final String path = NegativeWeightedGraphCompanion.shortestPath(graph, 0, 3);
+            System.out.println("Graph:\n" + graph + path);
+        } catch (Exception e) {
+            System.out.println("message: " + e.getLocalizedMessage());
+            assertTrue(true);
+        }
     }
 }
