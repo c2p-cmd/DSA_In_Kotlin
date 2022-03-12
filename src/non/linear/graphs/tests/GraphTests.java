@@ -1,5 +1,7 @@
 package non.linear.graphs.tests;
 
+import algorithms.minimal.spanning.tree.KruskalAlgorithm;
+import algorithms.minimal.spanning.tree.PrimsAlgorithm;
 import non.linear.graphs.*;
 import org.junit.jupiter.api.Test;
 
@@ -142,12 +144,12 @@ public class GraphTests {
 
         System.out.println("Vertices of Graph0: " + graph0.getAllVertices());
 
-        final String res0 = GraphTraversals.depthFirstTraversal(graph0);
+        final String res0 = GraphTraversals.depthFirstTraversal(graph0,0);
         System.out.println("\nGraph0:\n" + res0);
 
         System.out.println("\nVertices of Graph1: " + graph1.getAllVertices());
 
-        final String res1 = GraphTraversals.depthFirstTraversal(graph1);
+        final String res1 = GraphTraversals.depthFirstTraversal(graph1, 0);
         System.out.println("\nGraph1:\n" + res1);
 
         assertEquals(res0, res1);
@@ -214,6 +216,23 @@ public class GraphTests {
         graph0.addEdge(3, 4);
 
         System.out.println("List: " + graph0.getAllVertices());
+    }
+
+    @Test
+    void test11() {
+        final WeightedGraph g = new WeightedAdjacencyMatrixGraph(8, GraphType.UNDIRECTED);
+
+        g.addEdge(0, 1, 2.8);
+        g.addEdge(1, 2, 8.9);
+        g.addEdge(2, 3, 7.8);
+        g.addEdge(3, 3, 6.7);
+        g.addEdge(3, 4, 5.4);
+        g.addEdge(5, 4, 6.6);
+        g.addEdge(6, 4, 17.2);
+        g.addEdge(1, 7, 10.9);
+
+        System.out.println("Spanning Tree: " + PrimsAlgorithm.spanningTree(g, 1));
+        System.out.println("Spanning Tree: " + KruskalAlgorithm.spanningTree(g));
     }
 
     private Map<Integer, List<Integer>> buildGraph(Graph g) {

@@ -93,7 +93,7 @@ object GraphTraversals {
 
         visitedVertices[currentVertex] = true
 
-        val adjacentVertices = graph.getAdjacentVertices(currentVertex).second
+        val adjacentVertices: List<Int> = graph.getAdjacentVertices(currentVertex).second
         for (vertex in adjacentVertices) {
             depthFirstTraversalOf(graph, visitedVertices, vertex, resultString)
         }
@@ -102,7 +102,7 @@ object GraphTraversals {
     }
 
     @JvmStatic
-    fun depthFirstTraversal(graph: Graph) = depthFirstTraversalOf(graph, BooleanArray(graph.numVertices), 0)
+    fun depthFirstTraversal(graph: Graph, startIndex: Int = 0) = depthFirstTraversalOf(graph, BooleanArray(graph.numVertices), startIndex)
 
     @JvmStatic
     private fun breadthFirstTraversalOf(
