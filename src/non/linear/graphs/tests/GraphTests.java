@@ -231,8 +231,8 @@ public class GraphTests {
         g.addEdge(6, 4, 17.2);
         g.addEdge(1, 7, 10.9);
 
-        System.out.println("Spanning Tree: " + PrimsAlgorithm.spanningTree(g, 1));
-        System.out.println("Spanning Tree: " + KruskalAlgorithm.spanningTree(g));
+        System.out.println("Prim's Spanning Tree: " + PrimsAlgorithm.spanningTree(g, 1));
+        System.out.println("Kruskal Spanning Tree: " + KruskalAlgorithm.spanningTree(g));
     }
 
     private Map<Integer, List<Integer>> buildGraph(Graph g) {
